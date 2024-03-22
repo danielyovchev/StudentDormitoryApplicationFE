@@ -1,0 +1,43 @@
+.header {
+        background-color: #004165;
+        color: white;
+        padding: 1rem;
+        text-align: center;
+}
+
+.navbar {
+        display: flex;
+        justify-content: center;
+        padding: 1rem 0;
+}
+
+.navbar a {
+        color: white;
+        padding: 0 1rem;
+        text-decoration: none;
+        transition: color 0.3s ease;
+}
+
+.navbar a:hover {
+        color: #f7c948;
+}
+
+.welcome-section,
+.features-section {
+        margin: 2rem 5%;
+        text-align: center;
+}
+
+.features-section article {
+        margin-bottom: 2rem;
+}
+
+.footer {
+        background-color: #00263b;
+        color: white;
+        text-align: center;
+        padding: 1rem 0;
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+}
