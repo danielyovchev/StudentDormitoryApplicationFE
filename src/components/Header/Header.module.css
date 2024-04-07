@@ -1,6 +1,37 @@
-.header {
-    background-color: #004165;
+.nav {
+    align-items: center;
+    background-color: rgba(169, 84, 84, 1);
     color: white;
-    padding: 1rem;
-    text-align: center;
-}
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+  }
+  @media (max-width: 991px) {
+    .nav {
+      display: flex;
+    }
+  }
+  @media (max-width: 640px) {
+    .nav {
+      display: flex;
+    }
+  }
+  .a {
+    color: white;
+    text-decoration: none;
+  }
+  .img {
+    aspect-ratio: 1.35;
+    object-fit: contain;
+    object-position: center;
+    width: 156px;
+    align-self: center;
+    height: 50px;
+    pointer-events: auto;
+    margin-right: -2px;
+  }
+  .a-2 {
+    color: white;
+    text-decoration: none;
+    margin-left: -3px;
+  }
