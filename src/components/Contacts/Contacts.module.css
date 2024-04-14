@@ -1,0 +1,28 @@
+.contactsPage {
+    padding: 2rem;
+    background-color: #f9f9f9;
+  }
+  
+  .contactSection, .dormSection {
+    margin-bottom: 2rem;
+  }
+  
+  .person, .dormitory {
+    background-color: white;
+    padding: 1rem;
+    margin-top: 1rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  }
+  
+  h2 {
+    color: #0056b3;
+  }
+  
+  h3 {
+    color: #002171;
+  }
+  
+  p {
+    color: #333;
+    line-height: 1.6;
+  }

@@ -1,37 +1,68 @@
-.nav {
-    align-items: center;
-    background-color: rgba(169, 84, 84, 1);
-    color: white;
+/* Navbar.css */
+.navbar {
+    background-color: #0056b3;
+    /* A shade of blue */
     display: flex;
-    justify-content: space-around;
-    padding: 10px 0;
-  }
-  @media (max-width: 991px) {
-    .nav {
-      display: flex;
-    }
-  }
-  @media (max-width: 640px) {
-    .nav {
-      display: flex;
-    }
-  }
-  .a {
+    justify-content: space-between;
+    padding: 1rem;
+    color: white;
+}
+
+.navbarLinks {
+    display: flex;
+}
+
+.navLink {
     color: white;
     text-decoration: none;
-  }
-  .img {
-    aspect-ratio: 1.35;
-    object-fit: contain;
-    object-position: center;
-    width: 156px;
-    align-self: center;
+    margin-left: 1rem;
+    font-size: 1.2rem;
+}
+
+.navLink:hover {
+    text-decoration: underline;
+}
+
+/* Navbar.css additions */
+.navLinkSpecial {
+    background-color: white;
+    color: #0056b3;
+    padding: 0.5rem 1rem;
+    border-radius: 5px;
+    margin-left: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.navLinkSpecial:hover {
+    background-color: #e1f5fe;
+    color: #002171;
+}
+
+.navbarLogo {
+    color: white;
+    /* Adjust color to fit your navbar's theme */
+    text-decoration: none;
+    /* Removes underline from links */
+    font-size: 2rem;
+    /* Adjust based on your preference */
+    font-weight: bold;
+    /* Makes the text thicker */
+    margin-right: auto;
+    /* Pushes everything else to the opposite side of the navbar */
+    display: flex;
+    /* Enables alignment properties */
+    align-items: center;
+    /* Vertically centers the logo with items in the navbar */
+}
+
+/* If using an image logo instead */
+.logoImage {
     height: 50px;
-    pointer-events: auto;
-    margin-right: -2px;
-  }
-  .a-2 {
-    color: white;
-    text-decoration: none;
-    margin-left: -3px;
-  }
+    /* Adjust based on your navbar height, maintains aspect ratio */
+    width: auto;
+    /* Adjusts width automatically to maintain aspect ratio */
+    display: block;
+    /* Removes bottom margin/padding inherent to inline elements */
+    margin-right: auto;
+    /* For positioning, if needed */
+}
