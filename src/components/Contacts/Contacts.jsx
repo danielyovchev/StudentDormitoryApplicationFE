@@ -1,12 +1,9 @@
-import Footer from "../Footer/Footer";
-import Header from "../Header/Header";
 import styles from './Contacts.module.css'; // Assuming you have CSS module setup
 
 
 export default function Contacts() {
     return (
         <>
-            <Header/>
             <section className={styles.contactSection}>
                 <h2>Contact Persons for Application</h2>
                 <div className={styles.person}>
@@ -34,7 +31,6 @@ export default function Contacts() {
                     <p>Phone: (654) 321-8765</p>
                 </div>
             </section>
-            <Footer />
         </>
     );
 }

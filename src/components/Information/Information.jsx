@@ -1,12 +1,9 @@
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import styles from './Information.module.css'; // Assuming you have CSS module setup
 
 
 export default function Information() {
     return (
         <>
-            <Header />
             <section className={styles.informationSection}>
                 <h2>Application Process</h2>
                 <p>
@@ -31,7 +28,6 @@ export default function Information() {
                     <li>Year of study: Priority may be given based on the student's year of study.</li>
                 </ul>
             </section>
-            <Footer />
         </>
     );
 }

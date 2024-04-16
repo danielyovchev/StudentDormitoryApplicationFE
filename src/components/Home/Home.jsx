@@ -1,12 +1,9 @@
 import React from 'react';
 import styles from "./Home.module.css";
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 
 export default function Home() {
     return (
         <div>
-            <Header/>
             <section className="welcome-section">
                 <h2>About the System</h2>
                 <p>
@@ -35,7 +32,6 @@ export default function Home() {
                         Our dedicated support team is here to help you with any questions or concerns at any time of the day.
                     </p>
                 </article>
-                <Footer/>
             </section>
         </div>
     );

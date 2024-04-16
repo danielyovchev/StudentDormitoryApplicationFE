@@ -1,6 +1,4 @@
 import { useState } from "react";
-import Header from '../Header/Header';
-import Footer from '../Footer/Footer';
 import styles from './Register.module.css';
 
 export default function Register() {
@@ -16,7 +14,6 @@ export default function Register() {
     };
     return (
         <>
-            <Header />
             <div className={styles.registerContainer}>
                 <form className={styles.registerForm} onSubmit={handleRegister}>
                     <h2>Create Your Account</h2>
@@ -67,7 +64,6 @@ export default function Register() {
                     <button type="submit" className={styles.registerButton}>Register</button>
                 </form>
             </div>
-            <Footer />
         </>
     );
 }
