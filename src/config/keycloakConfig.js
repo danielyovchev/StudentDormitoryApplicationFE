@@ -1,9 +1,9 @@
 import Keycloak from 'keycloak-js';
 
-const keycloak = new Keycloak({
-    url: 'http://localhost:8080/auth',
-    realm: 'your-realm-name', 
-    clientId: 'your-frontend-client-id'
+const keycloakConfig = new Keycloak({
+    url: 'http://localhost:8080/',
+    realm: 'dormitoryApplication', 
+    clientId: 'dormitory-backend'
 });
 
-export default keycloak;
+export default keycloakConfig;
