@@ -5,7 +5,8 @@ export const Paths = {
     LOGIN: '/login',
     REGISTER: '/register',
     CONTACTS: '/contacts',
-    LOGOUT: '/logout'
+    LOGOUT: '/logout',
+    APPLY: '/apply'
 }
 
 export const API_BASE_URL = "http://localhost:8081/api";

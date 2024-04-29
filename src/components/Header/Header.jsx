@@ -8,7 +8,7 @@ export default function Header() {
         <nav className={styles.navbar}>
             <Link to="/" className={styles.navbarLogo}><img src="/logo.png" alt='logo' className={styles.logoImage}></img></Link>
             <div className={styles.navbarLinks}>
-                <Link to="/" className={styles.navLink}>Apply</Link>
+                <Link to={Paths.APPLY} className={styles.navLink}>Apply</Link>
                 <Link to={Paths.INFO} className={styles.navLink}>The proccess</Link>
                 <Link to={Paths.ABOUT} className={styles.navLink}>About Us</Link>
                 <Link to={Paths.CONTACTS} className={styles.navLink}>Contact</Link>

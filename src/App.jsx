@@ -10,6 +10,7 @@ import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
 import keycloak from './config/keycloakConfig';
+import Apply from './components/Apply/Apply'
 
 const initOptions = {
     onLoad: 'login-required', // Automatically redirect to Keycloak login if not authenticated
@@ -28,6 +29,7 @@ function App() {
 					<Route path={Paths.INFO} element={<Information />}></Route>
 					<Route path={Paths.LOGIN} element={<Login />}></Route>
 					<Route path={Paths.REGISTER} element={<Register />}></Route>
+					<Route path={Paths.APPLY} element={<Apply />}></Route>
 				</Routes>
 				<Footer />
 			</Router>
