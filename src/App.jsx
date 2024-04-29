@@ -12,6 +12,7 @@ import { ReactKeycloakProvider } from '@react-keycloak/web'
 import keycloak from './config/keycloakConfig';
 import Apply from './components/Apply/Apply'
 import FamilyInfo from './components/FamilyInfo/FamilyInfo'
+import ApplicationDashboard from './components/ApplicationDashboard/ApplicationDashboard'
 
 const initOptions = {
     onLoad: 'login-required', // Automatically redirect to Keycloak login if not authenticated
@@ -32,6 +33,7 @@ function App() {
 					<Route path={Paths.REGISTER} element={<Register />}></Route>
 					<Route path={Paths.APPLY} element={<Apply />}></Route>
 					<Route path={Paths.FAMILY} element={<FamilyInfo />}></Route>
+					<Route path={Paths.OVERVIEW} element={<ApplicationDashboard />}></Route>
 				</Routes>
 				<Footer />
 			</Router>

@@ -1,0 +1,55 @@
+.overviewContainer {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.formList {
+    list-style: none;
+    padding: 0;
+}
+
+.formList li {
+    background-color: white;
+    padding: 15px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    position: relative;
+}
+
+.formList li strong {
+    color: #0056b3;
+}
+
+.editLink {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #0056b3;
+    color: white;
+    padding: 8px 16px;
+    border-radius: 5px;
+    text-decoration: none;
+}
+
+.editLink:hover {
+    background-color: #003580;
+}
+
+.submitButton {
+    display: block;
+    width: fit-content;
+    padding: 10px 20px;
+    margin: 20px auto;
+    background-color: #4CAF50; /* Green for submission */
+    color: white;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+}
+
+.submitButton:hover {
+    background-color: #45a049;
+}
