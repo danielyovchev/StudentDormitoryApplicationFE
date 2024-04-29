@@ -12,6 +12,7 @@ export default function Header() {
                 <Link to={Paths.INFO} className={styles.navLink}>The proccess</Link>
                 <Link to={Paths.ABOUT} className={styles.navLink}>About Us</Link>
                 <Link to={Paths.CONTACTS} className={styles.navLink}>Contact</Link>
+                <Link to={Paths.FAMILY} className={styles.navLink}>Contact</Link>
                 {isAuthenticated ? (
                     <Link to="/logout" className={styles.navLink}>Logout</Link>
                 ) : (
