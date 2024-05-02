@@ -53,3 +53,24 @@
 .submitButton:hover {
     background-color: #45a049;
 }
+
+.selectCategory {
+    margin: 10px;
+    padding: 8px;
+    border-radius: 4px;
+}
+
+.addButton {
+    margin-top: 20px;
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.addButton:hover {
+    background-color: #45a049;
+}
+
