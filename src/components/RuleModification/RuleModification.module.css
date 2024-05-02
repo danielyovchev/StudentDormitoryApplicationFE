@@ -1,0 +1,44 @@
+.formContainer {
+    padding: 20px;
+    max-width: 600px;
+    margin: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #0056b3;
+    text-align: center;
+}
+
+.rule {
+    margin-bottom: 15px;
+}
+
+.rule label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.rule input {
+    width: 50px;
+    margin-left: 10px;
+}
+
+.submitButton {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #0056b3;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.submitButton:hover {
+    background-color: #003580;
+}
