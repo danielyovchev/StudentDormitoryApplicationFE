@@ -1,0 +1,38 @@
+.reviewContainer {
+    padding: 20px;
+    max-width: 800px;
+    margin: auto;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #0056b3;
+    text-align: center;
+}
+
+.applicationsTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.applicationsTable th, .applicationsTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.applicationsTable th {
+    background-color: #f2f2f2;
+}
+
+.actionLink {
+    color: #0056b3;
+    text-decoration: none;
+}
+
+.actionLink:hover {
+    text-decoration: underline;
+}

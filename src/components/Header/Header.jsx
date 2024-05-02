@@ -9,10 +9,10 @@ export default function Header() {
             <Link to="/" className={styles.navbarLogo}><img src="/logo.png" alt='logo' className={styles.logoImage}></img></Link>
             <div className={styles.navbarLinks}>
                 <Link to={Paths.OVERVIEW} className={styles.navLink}>Dashboard</Link>
+                <Link to={Paths.ADMIN} className={styles.navLink}>Admin Dashboard</Link>
                 <Link to={Paths.INFO} className={styles.navLink}>The proccess</Link>
                 <Link to={Paths.ABOUT} className={styles.navLink}>About Us</Link>
                 <Link to={Paths.CONTACTS} className={styles.navLink}>Contact</Link>
-                <Link to={Paths.FAMILY} className={styles.navLink}>Contact</Link>
                 {isAuthenticated ? (
                     <Link to="/logout" className={styles.navLink}>Logout</Link>
                 ) : (
