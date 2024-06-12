@@ -15,6 +15,7 @@ import FamilyInfo from './components/FamilyInfo/FamilyInfo'
 import ApplicationDashboard from './components/ApplicationDashboard/ApplicationDashboard'
 import RuleModification from './components/RuleModification/RuleModification'
 import AdminDashboard from './components/AdminDashboard/AdminDashboard'
+import AttributeModification from './components/AttributeModifcation/AttributeModification'
 
 const initOptions = {
     onLoad: 'login-required', // Automatically redirect to Keycloak login if not authenticated
@@ -38,6 +39,7 @@ function App() {
 					<Route path={Paths.OVERVIEW} element={<ApplicationDashboard />}></Route>
 					<Route path={Paths.ADMIN} element={<AdminDashboard />}></Route>
 					<Route path={Paths.RULES} element={<RuleModification />}></Route>
+					<Route path={Paths.ATTRIBUTES} element={<AttributeModification />}></Route>
 				</Routes>
 				<Footer />
 			</Router>

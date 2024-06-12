@@ -10,6 +10,7 @@ export const Paths = {
     FAMILY: '/apply/family-info',
     OVERVIEW: '/dashboard',
     RULES: '/rules',
+    ATTRIBUTES: '/attributes',
     ADMIN: '/admin',
     APPLICATIONS: '/admin/review-applications'
 }

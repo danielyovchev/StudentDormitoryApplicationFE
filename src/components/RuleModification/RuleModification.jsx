@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import RuleItem from './RuleItem';
 import styles from './RuleModification.module.css';
 
 export default function RuleModification() {
@@ -26,28 +27,19 @@ export default function RuleModification() {
     };
 
     return (
-        <>
-            <div className={styles.formContainer}>
-                <h2>Adjust Classification Rules</h2>
-                <form onSubmit={handleSubmit}>
-                    {Object.entries(rules).map(([key, { description, value }]) => (
-                        <div key={key} className={styles.rule}>
-                            <label>
-                                {description}:
-                                <input
-                                    type="number"
-                                    value={value}
-                                    onChange={(e) => handleChange(e, key)}
-                                    min="0"
-                                    max="100"
-                                />
-                                %
-                            </label>
-                        </div>
-                    ))}
-                    <button type="submit" className={styles.submitButton}>Save Changes</button>
-                </form>
-            </div>
-        </>
+        <div className={styles.formContainer}>
+            <h2>Adjust Classification Rules</h2>
+            <form onSubmit={handleSubmit}>
+                {Object.entries(rules).map(([key, { description, value }]) => (
+                    <RuleItem
+                        key={key}
+                        description={description}
+                        value={value}
+                        onChange={(e) => handleChange(e, key)}
+                    />
+                ))}
+                <button type="submit" className={styles.submitButton}>Save Changes</button>
+            </form>
+        </div>
     );
 }
