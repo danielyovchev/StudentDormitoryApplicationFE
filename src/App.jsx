@@ -16,6 +16,7 @@ import ApplicationDashboard from './components/ApplicationDashboard/ApplicationD
 import RuleModification from './components/RuleModification/RuleModification'
 import AdminDashboard from './components/AdminDashboard/AdminDashboard'
 import AttributeModification from './components/AttributeModifcation/AttributeModification'
+import StudentRanking from './components/StudentRanking/StudentRanking'
 
 const initOptions = {
     onLoad: 'login-required', // Automatically redirect to Keycloak login if not authenticated
@@ -40,6 +41,7 @@ function App() {
 					<Route path={Paths.ADMIN} element={<AdminDashboard />}></Route>
 					<Route path={Paths.RULES} element={<RuleModification />}></Route>
 					<Route path={Paths.ATTRIBUTES} element={<AttributeModification />}></Route>
+					<Route path={Paths.RANKING} element={<StudentRanking />}></Route>
 				</Routes>
 				<Footer />
 			</Router>

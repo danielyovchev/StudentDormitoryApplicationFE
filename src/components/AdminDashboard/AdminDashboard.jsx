@@ -12,6 +12,7 @@ export default function AdminDashboard() {
                     <Link to={Paths.APPLICATIONS} className={styles.dashboardLink}>Review Applications</Link>
                     <Link to={Paths.RULES} className={styles.dashboardLink}>Modify Classification Rules</Link>
                     <Link to={Paths.ATTRIBUTES} className={styles.dashboardLink}>Modify Attributes</Link>
+                    <Link to={Paths.RANKING} className={styles.dashboardLink}> Student ranking </Link>
                 </div>
             </div>
         </>
