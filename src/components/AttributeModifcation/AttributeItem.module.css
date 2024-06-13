@@ -1,17 +1,18 @@
-.attribute {
-    margin-bottom: 15px;
-}
-
-label {
+.attributeRow {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
+.attributeColumn {
+    flex: 1;
+    padding: 0 10px;
+    text-align: center;
+}
+
 input {
-    width: 200px;
+    width: 100%;
     padding: 5px;
-    margin-left: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
 }

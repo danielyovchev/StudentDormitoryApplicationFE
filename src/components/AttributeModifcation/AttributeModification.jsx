@@ -42,10 +42,16 @@ export default function AttributeModification() {
         <div className={styles.formContainer}>
             <h2>Adjust Attribute Values</h2>
             <form onSubmit={handleSubmit}>
-                {attributes.map(({ id, name, value }) => (
+                <div className={styles.attributeRow}>
+                    <div className={styles.attributeColumn}><strong>Name</strong></div>
+                    <div className={styles.attributeColumn}><strong>Description</strong></div>
+                    <div className={styles.attributeColumn}><strong>Value</strong></div>
+                </div>
+                {attributes.map(({ id, name, description, value }) => (
                     <AttributeItem
                         key={id}
                         name={name}
+                        description={description}
                         value={value}
                         onChange={(e) => handleChange(e, id)}
                     />
