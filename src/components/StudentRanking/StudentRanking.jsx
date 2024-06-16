@@ -12,8 +12,8 @@ export default function StudentRanking() {
             .then(response => response.json())
             .then(data => {
                 // Sort students by score in descending order
-                //const sortedStudents = data.sort((a, b) => b.score - a.score);
-                setStudents(data);
+                const sortedStudents = data.sort((a, b) => b.score - a.score);
+                setStudents(sortedStudents);
                 console.log(data);
             })
             .catch(error => console.error('Error fetching student rankings:', error));
@@ -22,19 +22,26 @@ export default function StudentRanking() {
     return (
         <div className={styles.container}>
             <h2>Final Student Ranking</h2>
-            <div className={styles.rankingRow}>
-                <div className={styles.rankingColumn}><strong>Rank</strong></div>
-                <div className={styles.rankingColumn}><strong>Name</strong></div>
-                <div className={styles.rankingColumn}><strong>Score</strong></div>
-            </div>
-            {students.map((student, index) => (
-                <StudentRankingItem
-                    key={student.id}
-                    rank={index + 1}
-                    name={student.studentName}
-                    score={student.score}
-                />
-            ))}
+            {students.length === 0 ? (
+                <p>Ranking is currently unavailable</p>
+            ) : (
+                <>
+                    <div className={styles.rankingRow}>
+                        <div className={styles.rankingColumn}><strong>Rank</strong></div>
+                        <div className={styles.rankingColumn}><strong>Name</strong></div>
+                        <div className={styles.rankingColumn}><strong>Score</strong></div>
+                    </div>
+                    {students.map((student, index) => (
+                        <StudentRankingItem
+                            key={student.id}
+                            rank={index + 1}
+                            name={student.studentName}
+                            score={student.score}
+                        />
+                    ))}
+                </>
+            )}
+
         </div>
     );
 }

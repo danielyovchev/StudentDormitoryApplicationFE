@@ -1,7 +1,5 @@
-/* Navbar.css */
 .navbar {
     background-color: #0056b3;
-    /* A shade of blue */
     display: flex;
     justify-content: space-between;
     padding: 1rem;
@@ -23,7 +21,6 @@
     text-decoration: underline;
 }
 
-/* Navbar.css additions */
 .navLinkSpecial {
     background-color: white;
     color: #0056b3;
