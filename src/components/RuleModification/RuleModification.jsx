@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import RuleItem from './RuleItem';
 import styles from './RuleModification.module.css';
+import { API_BASE_URL } from '../../utils/routeConstants';
 
 export default function RuleModification() {
     const [rules, setRules] = useState([]);
 
     useEffect(() => {
         // Fetch rules from the server
-        fetch('/api/rules')
+        fetch(API_BASE_URL+'/rule/get')
             .then(response => response.json())
             .then(data => setRules(data))
             .catch(error => console.error('Error fetching rules:', error));
@@ -30,13 +31,14 @@ export default function RuleModification() {
     const handleSubmit = (event) => {
         event.preventDefault();
         console.log('Updated Rules:', rules);
+        const updateRequest = { rules: rules };
         // Send the updated rules to the server
-        fetch('/api/rules', {
+        fetch(API_BASE_URL+'/rule/update', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(rules)
+            body: JSON.stringify(updateRequest)
         })
             .then(response => response.json())
             .then(data => {

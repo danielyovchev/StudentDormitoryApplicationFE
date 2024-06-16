@@ -1,18 +1,20 @@
 import React, { useState, useEffect } from 'react';
 import StudentRankingItem from './StudentRankingItem';
 import styles from './StudentRanking.module.css';
+import { API_BASE_URL } from '../../utils/routeConstants';
 
 export default function StudentRanking() {
     const [students, setStudents] = useState([]);
 
     useEffect(() => {
         // Fetch student rankings from the server
-        fetch('/api/students/ranking')
+        fetch(API_BASE_URL + '/rank/ranking')
             .then(response => response.json())
             .then(data => {
                 // Sort students by score in descending order
-                const sortedStudents = data.sort((a, b) => b.score - a.score);
-                setStudents(sortedStudents);
+                //const sortedStudents = data.sort((a, b) => b.score - a.score);
+                setStudents(data);
+                console.log(data);
             })
             .catch(error => console.error('Error fetching student rankings:', error));
     }, []);
@@ -29,7 +31,7 @@ export default function StudentRanking() {
                 <StudentRankingItem
                     key={student.id}
                     rank={index + 1}
-                    name={student.name}
+                    name={student.studentName}
                     score={student.score}
                 />
             ))}

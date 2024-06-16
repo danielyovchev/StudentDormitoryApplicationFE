@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import AttributeItem from './AttributeItem';
 import styles from './AttributeModification.module.css';
+import { API_BASE_URL } from '../../utils/routeConstants';
 
 export default function AttributeModification() {
     const [attributes, setAttributes] = useState([]);
 
     useEffect(() => {
         // Fetch attributes from the server
-        fetch('/api/attributes')
+        fetch(API_BASE_URL + '/attributes/get')
             .then(response => response.json())
             .then(data => setAttributes(data))
             .catch(error => console.error('Error fetching attributes:', error));
@@ -24,7 +25,7 @@ export default function AttributeModification() {
         event.preventDefault();
         console.log('Updated Attributes:', attributes);
         // Send the updated attributes to the server
-        fetch('/api/attributes', {
+        fetch(API_BASE_URL + '/attributes/update', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
