@@ -19,7 +19,7 @@ import AttributeModification from './components/AttributeModifcation/AttributeMo
 import StudentRanking from './components/StudentRanking/StudentRanking'
 
 const initOptions = {
-    onLoad: 'login-required', // Automatically redirect to Keycloak login if not authenticated
+    onLoad: 'check-sso', // Automatically redirect to Keycloak login if not authenticated
     flow: 'standard'          // Use the standard authorization code flow
 };
 
@@ -33,8 +33,8 @@ function App() {
 					<Route path={Paths.ABOUT} element={<About />}></Route>
 					<Route path={Paths.CONTACTS} element={<Contacts />}></Route>
 					<Route path={Paths.INFO} element={<Information />}></Route>
-					<Route path={Paths.LOGIN} element={<Login />}></Route>
-					<Route path={Paths.REGISTER} element={<Register />}></Route>
+					{/* <Route path={Paths.LOGIN} element={<Login />}></Route>
+					<Route path={Paths.REGISTER} element={<Register />}></Route> */}
 					<Route path={Paths.APPLY} element={<Apply />}></Route>
 					<Route path={Paths.FAMILY} element={<FamilyInfo />}></Route>
 					<Route path={Paths.OVERVIEW} element={<ApplicationDashboard />}></Route>
