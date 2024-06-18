@@ -1,22 +1,14 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom'; // Ensure you have React Router set up
+import { Link } from 'react-router-dom';
 import styles from './ApplicationDashboard.module.css';
-import { Paths } from '../../utils/routeConstants';
+import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 
 export default function ApplicationDashboard() {
     const [formStatus, setFormStatus] = useState({
         studentForm: false,
         familyForm: false
     });
-    // Implement with BE
-    // useEffect(() => {
-    //     // Imagine this data comes from local storage or a backend API
-    //     const savedStatus = {
-    //         studentForm: true,
-    //         familyForm: false
-    //     };
-    //     setFormStatus(savedStatus);
-    // }, []);
+
     const [uploads, setUploads] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
@@ -30,12 +22,30 @@ export default function ApplicationDashboard() {
         foreignStudents: "Foreign Students"
     };
 
-    const handleFileChange = (event) => {
+    const handleFileChange = async (event) => {
         const file = event.target.files[0];
         if (file) {
-            setUploads(prev => ({ ...prev, [selectedCategory]: file.name }));
-            setShowUpload(false);
-            setSelectedCategory('');
+            const formData = new FormData();
+            formData.append('file', file);
+            formData.append('category', selectedCategory);
+
+            try {
+                const response = await fetch(API_BASE_URL+'/upload/student/documents', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setUploads(prev => ({ ...prev, [selectedCategory]: file.name }));
+                    setShowUpload(false);
+                    setSelectedCategory('');
+                } else {
+                    console.error('File upload failed');
+                }
+            } catch (error) {
+                console.error('Error uploading file:', error);
+            }
         }
     };
 
@@ -46,6 +56,7 @@ export default function ApplicationDashboard() {
     const handleAddFileClick = () => {
         setShowUpload(true);
     };
+
     return (
         <>
             <div className={styles.overviewContainer}>
@@ -56,7 +67,7 @@ export default function ApplicationDashboard() {
                         {formStatus.studentForm ? ' Completed' : ' Not Completed'}
                         {!formStatus.studentForm && (
                             <Link to={Paths.APPLY} className={styles.editLink}>Fill Out Form</Link>
-                        )}                       
+                        )}
                     </li>
                     <li>
                         <strong>Family Information Form:</strong>
