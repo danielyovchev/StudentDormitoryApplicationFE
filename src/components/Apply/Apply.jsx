@@ -1,150 +1,213 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import styles from './Apply.module.css';
+import { StudentContext } from '../../contexts/StudentContext';
+import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 
 export default function Apply() {
-    const [formData, setFormData] = useState({
-        educationForm: 'regular',
-        faculty: '',
-        specialty: '',
-        city: '',
-        municipality: '',
-        street: '',
-        streetNumber: '',
-        buildingNumber: '18', // Default to building 18
-        roomNumber: '',
-        entrance: '',
-        apartment: '',
-        personalID: '',
-        phoneNumber: '',
-        grade: '',
-        yearOfStudy: 'first', // Default to first year
-        preserveRoom: false // Checkbox for preserving room
-    });
+    const { studentData, setStudentData, setFormStatus } = useContext(StudentContext);
+    const [errors, setErrors] = useState({});
+    const navigate = useNavigate();
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
-        setFormData(prevState => ({
+        setStudentData(prevState => ({
             ...prevState,
             [name]: type === 'checkbox' ? checked : value
         }));
     };
 
-    const handleSubmit = (event) => {
+    const validateForm = () => {
+        const newErrors = {};
+        if (!studentData.yearOfStudy) newErrors.yearOfStudy = 'Year of Study is required';
+        if (!studentData.educationForm) newErrors.educationForm = 'Form of Education is required';
+        if (!studentData.faculty) newErrors.faculty = 'Faculty is required';
+        if (!studentData.specialty) newErrors.specialty = 'Specialty is required';
+        if (!studentData.city) newErrors.city = 'City is required';
+        if (!studentData.municipality) newErrors.municipality = 'Municipality is required';
+        if (!studentData.street) newErrors.street = 'Street is required';
+        if (!studentData.streetNumber && studentData.streetNumber !== 0) newErrors.streetNumber = 'Street Number is required';
+        if (!studentData.personalID) newErrors.personalID = 'Personal Identification Number is required';
+        if (!studentData.phoneNumber) newErrors.phoneNumber = 'Phone Number is required';
+        if (!studentData.grade && studentData.grade !== 0) newErrors.grade = 'Grade is required';
+        if (!studentData.buildingNumber) newErrors.buildingNumber = 'Building Number is required';
+        if (!studentData.sex) newErrors.sex = 'Sex is required';
+
+        setErrors(newErrors);
+        return Object.keys(newErrors).length === 0;
+    };
+
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Submitted Data:', formData);
-        // Implement your submission logic here, such as an API call
+        if (!validateForm()) {
+            return;
+        }
+
+        const payload = {
+            name: studentData.name,
+            educationForm: studentData.educationForm.toUpperCase(), // Ensure enum values are uppercase
+            faculty: studentData.faculty.toUpperCase(), // Ensure enum values are uppercase
+            specialty: studentData.specialty.toUpperCase(), // Ensure enum values are uppercase
+            city: studentData.city,
+            municipality: studentData.municipality,
+            street: studentData.street,
+            streetNumber: parseInt(studentData.streetNumber, 10),
+            entrance: parseInt(studentData.entrance, 10),
+            apartment: parseInt(studentData.apartment, 10),
+            personalNumber: studentData.personalID,
+            phoneNumber: studentData.phoneNumber,
+            grade: parseFloat(studentData.grade),
+            dormitoryNumber: parseInt(studentData.buildingNumber, 10),
+            roomNumber: parseInt(studentData.roomNumber, 10),
+            sex: studentData.sex,
+            studentNumber: studentData.personalID // Assuming student number is the same as personal ID
+        };
+
+        try {
+            const response = await fetch(`${API_BASE_URL}/upload/student/data`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(payload)
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
+                navigate(Paths.HOME); // Redirect to application dashboard
+            } else {
+                console.error('Student data submission failed');
+            }
+        } catch (error) {
+            console.error('Error submitting student data:', error);
+        }
     };
 
     return (
-        <>
-            <div className={styles.formContainer}>
-                <form onSubmit={handleSubmit} className={styles.applicationForm}>
-                    <h2>Student Application Form</h2>
-                    <label>
-                        Year of Study:
-                        <select name="yearOfStudy" value={formData.yearOfStudy} onChange={handleChange}>
-                            <option value="first">First Year</option>
-                            <option value="second">Second Year and Above</option>
-                        </select>
-                    </label>
-                    {formData.yearOfStudy !== 'first' && (
-                        <>
-                            <label>
-                                Preserve room from last year:
-                                <input
-                                    type="checkbox"
-                                    name="preserveRoom"
-                                    checked={formData.preserveRoom}
-                                    onChange={handleChange}
-                                />
-                            </label>
-                            <label>
-                                Number of exams to retake:
-                                <input
-                                    type="number"
-                                    name="examsToRetake"
-                                    value={formData.examsToRetake}
-                                    onChange={handleChange}
-                                    min="0"
-                                />
-                            </label>
-                        </>
-                    )}
-                    <label>
-                        Form of Education:
-                        <select name="educationForm" value={formData.educationForm} onChange={handleChange}>
-                            <option value="regular">Regular</option>
-                            <option value="shortened">Shortened</option>
-                        </select>
-                    </label>
-                    <label>
-                        Faculty:
-                        <input type="text" name="faculty" value={formData.faculty} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Specialty:
-                        <input type="text" name="specialty" value={formData.specialty} onChange={handleChange} />
-                    </label>
-                    <label>
-                        City:
-                        <input type="text" name="city" value={formData.city} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Municipality:
-                        <input type="text" name="municipality" value={formData.municipality} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Street:
-                        <input type="text" name="street" value={formData.street} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Street Number:
-                        <input type="text" name="streetNumber" value={formData.streetNumber} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Building Number:
-                        <select name="buildingNumber" value={formData.buildingNumber} onChange={handleChange}>
-                            <option value="18">18</option>
-                            <option value="20">20</option>
-                        </select>
-                    </label>
-                    <label>
-                        Room Number:
-                        <input type="text" name="roomNumber" value={formData.roomNumber} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Entrance:
-                        <input type="text" name="entrance" value={formData.entrance} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Apartment:
-                        <input type="text" name="apartment" value={formData.apartment} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Personal Identification Number:
-                        <input type="text" name="personalID" value={formData.personalID} onChange={handleChange} />
-                    </label>
-                    <label>
-                        Phone Number:
-                        <input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} />
-                    </label>
-                    <label>
-                        {formData.yearOfStudy === 'first' ? "Grade from School:" : "Grade from Last Year:"}
-                        <input type="text" name="grade" value={formData.grade} onChange={handleChange} />
-                    </label>
-                    {formData.yearOfStudy !== 'first' && (
+        <div className={styles.formContainer}>
+            <form onSubmit={handleSubmit} className={styles.applicationForm}>
+                <h2>Student Application Form</h2>
+                <label>
+                    Year of Study:
+                    <select name="yearOfStudy" value={studentData.yearOfStudy} onChange={handleChange}>
+                        <option value="first">First Year</option>
+                        <option value="second">Second Year and Above</option>
+                    </select>
+                    {errors.yearOfStudy && <span className={styles.error}>{errors.yearOfStudy}</span>}
+                </label>
+                {studentData.yearOfStudy !== 'first' && (
+                    <>
+                        <label>
+                            Preserve room from last year:
+                            <input
+                                type="checkbox"
+                                name="preserveRoom"
+                                checked={studentData.preserveRoom}
+                                onChange={handleChange}
+                            />
+                        </label>
                         <label>
                             Number of exams to retake:
                             <input
                                 type="number"
-                                name="retakeExams"
+                                name="examsToRetake"
+                                value={studentData.examsToRetake}
                                 onChange={handleChange}
+                                min="0"
                             />
                         </label>
-                    )}
-                    <button type="submit">Submit Application</button>
-                </form>
-            </div>
-        </>
+                    </>
+                )}
+                <label>
+                    Form of Education:
+                    <select name="educationForm" value={studentData.educationForm} onChange={handleChange}>
+                        <option value="REGULAR">Regular</option>
+                        <option value="SHORTENED">Shortened</option>
+                    </select>
+                    {errors.educationForm && <span className={styles.error}>{errors.educationForm}</span>}
+                </label>
+                <label>
+                    Faculty:
+                    <select name="faculty" value={studentData.faculty} onChange={handleChange}>
+                        <option value="FITA">FITA</option>
+                        <option value="SHIPMENT">Shipment</option>
+                        <option value="ELECTRICAL">Electrical</option>
+                        <option value="SS">SS</option>
+                    </select>
+                    {errors.faculty && <span className={styles.error}>{errors.faculty}</span>}
+                </label>
+                <label>
+                    Specialty:
+                    <select name="specialty" value={studentData.specialty} onChange={handleChange}>
+                        <option value="SIT">SIT</option>
+                        <option value="KST">KST</option>
+                        <option value="SS">SS</option>
+                    </select>
+                    {errors.specialty && <span className={styles.error}>{errors.specialty}</span>}
+                </label>
+                <label>
+                    City:
+                    <input type="text" name="city" value={studentData.city} onChange={handleChange} />
+                    {errors.city && <span className={styles.error}>{errors.city}</span>}
+                </label>
+                <label>
+                    Municipality:
+                    <input type="text" name="municipality" value={studentData.municipality} onChange={handleChange} />
+                    {errors.municipality && <span className={styles.error}>{errors.municipality}</span>}
+                </label>
+                <label>
+                    Street:
+                    <input type="text" name="street" value={studentData.street} onChange={handleChange} />
+                    {errors.street && <span className={styles.error}>{errors.street}</span>}
+                </label>
+                <label>
+                    Street Number:
+                    <input type="number" name="streetNumber" value={studentData.streetNumber} onChange={handleChange} min="0" />
+                    {errors.streetNumber && <span className={styles.error}>{errors.streetNumber}</span>}
+                </label>
+                <label>
+                    Building Number:
+                    <select name="buildingNumber" value={studentData.buildingNumber} onChange={handleChange}>
+                        <option value="18">18</option>
+                        <option value="20">20</option>
+                    </select>
+                    {errors.buildingNumber && <span className={styles.error}>{errors.buildingNumber}</span>}
+                </label>
+                <label>
+                    Room Number:
+                    <input type="number" name="roomNumber" value={studentData.roomNumber} onChange={handleChange} min="0" />
+                </label>
+                <label>
+                    Entrance:
+                    <input type="number" name="entrance" value={studentData.entrance} onChange={handleChange} min="0" />
+                </label>
+                <label>
+                    Apartment:
+                    <input type="number" name="apartment" value={studentData.apartment} onChange={handleChange} min="0" />
+                </label>
+                <label>
+                    Personal Identification Number:
+                    <input type="text" name="personalID" value={studentData.personalID} onChange={handleChange} />
+                    {errors.personalID && <span className={styles.error}>{errors.personalID}</span>}
+                </label>
+                <label>
+                    Phone Number:
+                    <input type="text" name="phoneNumber" value={studentData.phoneNumber} onChange={handleChange} />
+                    {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber}</span>}
+                </label>
+                <label>
+                    {studentData.yearOfStudy === 'first' ? "Grade from School:" : "Grade from Last Year:"}
+                    <input type="number" name="grade" value={studentData.grade} onChange={handleChange} step="0.01" min="0" />
+                    {errors.grade && <span className={styles.error}>{errors.grade}</span>}
+                </label>
+                <label>
+                    Sex:
+                    <input type="text" name="sex" value={studentData.sex} onChange={handleChange} />
+                    {errors.sex && <span className={styles.error}>{errors.sex}</span>}
+                </label>
+                <button type="submit">Submit Application</button>
+            </form>
+        </div>
     );
 }

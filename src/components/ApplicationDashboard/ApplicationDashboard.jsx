@@ -1,14 +1,11 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ApplicationDashboard.module.css';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
+import { StudentContext } from '../../contexts/StudentContext';
 
 export default function ApplicationDashboard() {
-    const [formStatus, setFormStatus] = useState({
-        studentForm: false,
-        familyForm: false
-    });
-
+    const { studentData, formStatus } = useContext(StudentContext);
     const [uploads, setUploads] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
@@ -24,13 +21,14 @@ export default function ApplicationDashboard() {
 
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
-        if (file) {
+        if (file && studentData.personalID) {
             const formData = new FormData();
             formData.append('file', file);
             formData.append('category', selectedCategory);
+            formData.append('studentNumber', studentData.personalID);
 
             try {
-                const response = await fetch(API_BASE_URL+'/upload/student/documents', {
+                const response = await fetch(`${API_BASE_URL}/upload/student/documents`, {
                     method: 'POST',
                     body: formData
                 });
@@ -65,38 +63,42 @@ export default function ApplicationDashboard() {
                     <li>
                         <strong>Student Application Form:</strong>
                         {formStatus.studentForm ? ' Completed' : ' Not Completed'}
-                        {!formStatus.studentForm && (
+                        {formStatus.studentForm ? (
+                            <Link to={Paths.APPLY} className={styles.editLink}>Update Student Data</Link>
+                        ) : (
                             <Link to={Paths.APPLY} className={styles.editLink}>Fill Out Form</Link>
                         )}
                     </li>
                     <li>
                         <strong>Family Information Form:</strong>
                         {formStatus.familyForm ? ' Completed' : ' Not Completed'}
-                        {!formStatus.familyForm && (
+                        {!formStatus.familyForm && formStatus.studentForm && (
                             <Link to={Paths.FAMILY} className={styles.editLink}>Fill Out Form</Link>
                         )}
                     </li>
                 </ul>
-                <div className={styles.documentUploads}>
-                    <h3>Upload Required Documents</h3>
-                    {Object.entries(uploads).map(([key, value]) => (
-                        <p key={key}>{categories[key]}: {value} (submitted)</p>
-                    ))}
-                    {showUpload && (
-                        <div>
-                            <select onChange={handleCategoryChange} value={selectedCategory} className={styles.selectCategory}>
-                                <option value="">Select Category</option>
-                                {Object.keys(categories).map(key => (
-                                    !uploads[key] && <option key={key} value={key}>{categories[key]}</option>
-                                ))}
-                            </select>
-                            <input type="file" onChange={handleFileChange} />
-                        </div>
-                    )}
-                    {!showUpload && (
-                        <button onClick={handleAddFileClick} className={styles.addButton}>Add File</button>
-                    )}
-                </div>
+                {studentData.personalID && (
+                    <div className={styles.documentUploads}>
+                        <h3>Upload Required Documents</h3>
+                        {Object.entries(uploads).map(([key, value]) => (
+                            <p key={key}>{categories[key]}: {value} (submitted)</p>
+                        ))}
+                        {showUpload && (
+                            <div>
+                                <select onChange={handleCategoryChange} value={selectedCategory} className={styles.selectCategory}>
+                                    <option value="">Select Category</option>
+                                    {Object.keys(categories).map(key => (
+                                        !uploads[key] && <option key={key} value={key}>{categories[key]}</option>
+                                    ))}
+                                </select>
+                                <input type="file" onChange={handleFileChange} />
+                            </div>
+                        )}
+                        {!showUpload && (
+                            <button onClick={handleAddFileClick} className={styles.addButton}>Add File</button>
+                        )}
+                    </div>
+                )}
                 {(!formStatus.studentForm || !formStatus.familyForm) && (
                     <Link to="/submit-application" className={styles.submitButton}>Review and Submit Application</Link>
                 )}
