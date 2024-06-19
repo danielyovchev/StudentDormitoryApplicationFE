@@ -47,9 +47,9 @@ export default function Apply() {
 
         const payload = {
             name: studentData.name,
-            educationForm: studentData.educationForm.toUpperCase(), // Ensure enum values are uppercase
-            faculty: studentData.faculty.toUpperCase(), // Ensure enum values are uppercase
-            specialty: studentData.specialty.toUpperCase(), // Ensure enum values are uppercase
+            educationForm: studentData.educationForm.toUpperCase(),
+            faculty: studentData.faculty.toUpperCase(),
+            specialty: studentData.specialty.toUpperCase(),
             city: studentData.city,
             municipality: studentData.municipality,
             street: studentData.street,
@@ -62,7 +62,7 @@ export default function Apply() {
             dormitoryNumber: parseInt(studentData.buildingNumber, 10),
             roomNumber: parseInt(studentData.roomNumber, 10),
             sex: studentData.sex,
-            studentNumber: studentData.personalID // Assuming student number is the same as personal ID
+            studentNumber: studentData.studentNumber
         };
 
         try {
@@ -78,7 +78,7 @@ export default function Apply() {
             if (response.ok) {
                 setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
                 toast.success(responseData.message || 'Application submitted successfully!');
-                navigate(Paths.HOME); // Redirect to application dashboard
+                navigate(Paths.OVERVIEW);
             } else {
                 toast.error(responseData.message || 'Student data submission failed');
             }
