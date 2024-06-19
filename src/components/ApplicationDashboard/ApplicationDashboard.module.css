@@ -1,12 +1,18 @@
 .overviewContainer {
     padding: 20px;
-    max-width: 70%;
+    width: 100%;
+    max-width: 1200px;
     margin: auto;
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .formList {
     list-style: none;
     padding: 0;
+    width: 100%;
 }
 
 .formList li {
@@ -15,7 +21,9 @@
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .formList li strong {
@@ -23,15 +31,12 @@
 }
 
 .editLink {
-    position: absolute;
-    right: 20px;
-    top: 50%;
-    transform: translateY(-50%);
     background-color: #0056b3;
     color: white;
     padding: 8px 16px;
     border-radius: 5px;
     text-decoration: none;
+    transition: background-color 0.3s;
 }
 
 .editLink:hover {
@@ -39,25 +44,31 @@
 }
 
 .submitButton {
-    display: block;
-    width: fit-content;
+    display: inline-block;
     padding: 10px 20px;
-    margin: 20px auto;
+    margin: 20px 0;
     background-color: #4CAF50; /* Green for submission */
     color: white;
     border-radius: 5px;
     text-align: center;
     text-decoration: none;
+    transition: background-color 0.3s;
 }
 
 .submitButton:hover {
     background-color: #45a049;
 }
 
+.documentUploads {
+    width: 100%;
+    margin-top: 20px;
+}
+
 .selectCategory {
-    margin: 10px;
+    margin: 10px 0;
     padding: 8px;
     border-radius: 4px;
+    width: calc(100% - 20px); /* Make it full width minus margin */
 }
 
 .addButton {
@@ -68,9 +79,9 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .addButton:hover {
     background-color: #45a049;
 }
-

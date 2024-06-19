@@ -18,6 +18,7 @@ import AdminDashboard from './components/AdminDashboard/AdminDashboard'
 import AttributeModification from './components/AttributeModifcation/AttributeModification'
 import StudentRanking from './components/StudentRanking/StudentRanking'
 import { StudentProvider } from './contexts/StudentContext'
+import { ToastContainer } from 'react-toastify'
 
 const initOptions = {
 	onLoad: 'check-sso', // Automatically redirect to Keycloak login if not authenticated
@@ -29,6 +30,7 @@ function App() {
 		<ReactKeycloakProvider authClient={keycloak} initOptions={initOptions}>
 			<StudentProvider>
 			<Router>
+				<ToastContainer/>
 				<Header />
 				<Routes>
 						<Route path={Paths.HOME} element={<Home />}></Route>

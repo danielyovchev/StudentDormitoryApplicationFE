@@ -61,8 +61,7 @@ export default function ApplicationDashboard() {
                 <h2>Application Forms Overview</h2>
                 <ul className={styles.formList}>
                     <li>
-                        <strong>Student Application Form:</strong>
-                        {formStatus.studentForm ? ' Completed' : ' Not Completed'}
+                        <strong>Student Application Form: {formStatus.studentForm ? 'Completed' : 'Not Completed'}</strong>
                         {formStatus.studentForm ? (
                             <Link to={Paths.APPLY} className={styles.editLink}>Update Student Data</Link>
                         ) : (
@@ -70,8 +69,7 @@ export default function ApplicationDashboard() {
                         )}
                     </li>
                     <li>
-                        <strong>Family Information Form:</strong>
-                        {formStatus.familyForm ? ' Completed' : ' Not Completed'}
+                        <strong>Family Information Form: {formStatus.familyForm ? 'Completed' : 'Not Completed'}</strong>                      
                         {!formStatus.familyForm && formStatus.studentForm && (
                             <Link to={Paths.FAMILY} className={styles.editLink}>Fill Out Form</Link>
                         )}

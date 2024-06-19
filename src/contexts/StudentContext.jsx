@@ -5,20 +5,21 @@ const StudentContext = createContext();
 const StudentProvider = ({ children }) => {
     const [studentData, setStudentData] = useState({
         educationForm: 'regular',
-        faculty: '',
-        specialty: '',
+        faculty: 'FITA',
+        specialty: 'SIT',
         city: '',
         municipality: '',
         street: '',
         streetNumber: '',
-        buildingNumber: '18', // Default to building 18
+        buildingNumber: '18',
         roomNumber: '',
         entrance: '',
         apartment: '',
         personalID: '',
+        studentNumber: '',
         phoneNumber: '',
         grade: '',
-        yearOfStudy: 'first', // Default to first year
+        yearOfStudy: 'first',
         preserveRoom: false // Checkbox for preserving room
     });
 

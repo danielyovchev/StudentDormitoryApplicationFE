@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 import styles from './Apply.module.css';
 import { StudentContext } from '../../contexts/StudentContext';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
@@ -28,6 +29,7 @@ export default function Apply() {
         if (!studentData.street) newErrors.street = 'Street is required';
         if (!studentData.streetNumber && studentData.streetNumber !== 0) newErrors.streetNumber = 'Street Number is required';
         if (!studentData.personalID) newErrors.personalID = 'Personal Identification Number is required';
+        if (!studentData.studentNumber) newErrors.studentNumber = 'Student Number is required';
         if (!studentData.phoneNumber) newErrors.phoneNumber = 'Phone Number is required';
         if (!studentData.grade && studentData.grade !== 0) newErrors.grade = 'Grade is required';
         if (!studentData.buildingNumber) newErrors.buildingNumber = 'Building Number is required';
@@ -72,15 +74,17 @@ export default function Apply() {
                 body: JSON.stringify(payload)
             });
 
+            const responseData = await response.json();
             if (response.ok) {
-                const data = await response.json();
                 setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
+                toast.success(responseData.message || 'Application submitted successfully!');
                 navigate(Paths.HOME); // Redirect to application dashboard
             } else {
-                console.error('Student data submission failed');
+                toast.error(responseData.message || 'Student data submission failed');
             }
         } catch (error) {
             console.error('Error submitting student data:', error);
+            toast.error('Error submitting student data');
         }
     };
 
@@ -190,6 +194,11 @@ export default function Apply() {
                     Personal Identification Number:
                     <input type="text" name="personalID" value={studentData.personalID} onChange={handleChange} />
                     {errors.personalID && <span className={styles.error}>{errors.personalID}</span>}
+                </label>
+                <label>
+                    Personal Student Number:
+                    <input type="text" name="studentNumber" value={studentData.studentNumber} onChange={handleChange} />
+                    {errors.studentNumber && <span className={styles.error}>{errors.studentNumber}</span>}
                 </label>
                 <label>
                     Phone Number:
