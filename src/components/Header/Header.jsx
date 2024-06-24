@@ -1,10 +1,13 @@
+import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import { Paths } from '../../utils/routeConstants';
 import { useAuth } from '../../hooks/useAuth';
+import { useTranslation } from 'react-i18next';
 
 export default function Header() {
     const { isAuthenticated, login, logout, register } = useAuth();
+    const { t, i18n } = useTranslation();
 
     const handleLogout = (event) => {
         event.preventDefault();
@@ -16,25 +19,33 @@ export default function Header() {
         register();
     };
 
+    const toggleLanguage = () => {
+        const newLang = i18n.language === 'bg' ? 'en' : 'bg';
+        i18n.changeLanguage(newLang);
+    };
+
     return (
         <nav className={styles.navbar}>
             <Link to="/" className={styles.navbarLogo}>
                 <img src="/logo.png" alt="logo" className={styles.logoImage} />
             </Link>
             <div className={styles.navbarLinks}>
-                <Link to={Paths.OVERVIEW} className={styles.navLink}>Dashboard</Link>
-                <Link to={Paths.ADMIN} className={styles.navLink}>Admin Dashboard</Link>
-                <Link to={Paths.INFO} className={styles.navLink}>The process</Link>
-                <Link to={Paths.ABOUT} className={styles.navLink}>About Us</Link>
-                <Link to={Paths.CONTACTS} className={styles.navLink}>Contact</Link>
+                <Link to={Paths.OVERVIEW} className={styles.navLink}>{t('Dashboard')}</Link>
+                <Link to={Paths.ADMIN} className={styles.navLink}>{t('Admin Dashboard')}</Link>
+                <Link to={Paths.INFO} className={styles.navLink}>{t('The process')}</Link>
+                <Link to={Paths.ABOUT} className={styles.navLink}>{t('About Us')}</Link>
+                <Link to={Paths.CONTACTS} className={styles.navLink}>{t('Contact')}</Link>
                 {isAuthenticated ? (
-                    <a href="/" onClick={handleLogout} className={styles.navLink}>Logout</a>
+                    <a href="/" onClick={handleLogout} className={styles.navLink}>{t('Logout')}</a>
                 ) : (
                     <>
-                        <button onClick={login} className={styles.navLinkSpecial}>Login</button>
-                        <button onClick={handleRegister} className={styles.navLinkSpecial}>Register</button>
+                        <button onClick={login} className={styles.navLinkSpecial}>{t('Login')}</button>
+                        <button onClick={handleRegister} className={styles.navLinkSpecial}>{t('Register')}</button>
                     </>
                 )}
+                <button onClick={toggleLanguage} className={styles.navLinkSpecial}>
+                    {i18n.language === 'bg' ? 'EN' : 'BG'}
+                </button>
             </div>
         </nav>
     );

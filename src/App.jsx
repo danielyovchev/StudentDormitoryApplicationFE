@@ -17,8 +17,10 @@ import RuleModification from './components/RuleModification/RuleModification'
 import AdminDashboard from './components/AdminDashboard/AdminDashboard'
 import AttributeModification from './components/AttributeModifcation/AttributeModification'
 import StudentRanking from './components/StudentRanking/StudentRanking'
+import ApplicationsReview from './components/ApplicationsReview/ApplicationsReview'
 import { StudentProvider } from './contexts/StudentContext'
 import { ToastContainer } from 'react-toastify'
+import './translation/i18n';
 
 const initOptions = {
 	onLoad: 'check-sso', // Automatically redirect to Keycloak login if not authenticated
@@ -29,10 +31,10 @@ function App() {
 	return (
 		<ReactKeycloakProvider authClient={keycloak} initOptions={initOptions}>
 			<StudentProvider>
-			<Router>
-				<ToastContainer/>
-				<Header />
-				<Routes>
+				<Router>
+					<ToastContainer />
+					<Header />
+					<Routes>
 						<Route path={Paths.HOME} element={<Home />}></Route>
 						<Route path={Paths.ABOUT} element={<About />}></Route>
 						<Route path={Paths.CONTACTS} element={<Contacts />}></Route>
@@ -46,10 +48,10 @@ function App() {
 						<Route path={Paths.RULES} element={<RuleModification />}></Route>
 						<Route path={Paths.ATTRIBUTES} element={<AttributeModification />}></Route>
 						<Route path={Paths.RANKING} element={<StudentRanking />}></Route>
-					
-				</Routes>
-				<Footer />
-			</Router>
+						<Route path={Paths.APPLICATIONS} element={<ApplicationsReview />}></Route>
+					</Routes>
+					<Footer />
+				</Router>
 			</StudentProvider>
 		</ReactKeycloakProvider>
 	)

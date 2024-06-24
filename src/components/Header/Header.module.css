@@ -1,65 +1,68 @@
 .navbar {
-    background-color: #0056b3;
     display: flex;
     justify-content: space-between;
-    padding: 1rem;
+    align-items: center;
+    padding: 10px 20px;
+    background-color: #0056b3; /* Updated to the specified color */
     color: white;
+}
+
+.navbarLogo {
+    display: flex;
+    align-items: center;
+}
+
+.logoImage {
+    height: 40px;
 }
 
 .navbarLinks {
     display: flex;
+    align-items: center;
 }
 
 .navLink {
     color: white;
     text-decoration: none;
-    margin-left: 1rem;
-    font-size: 1.2rem;
+    margin: 0 10px;
+    transition: color 0.3s;
 }
 
 .navLink:hover {
-    text-decoration: underline;
+    color: #ffd700;
 }
 
 .navLinkSpecial {
-    background-color: white;
-    color: #0056b3;
-    padding: 0.5rem 1rem;
+    color: white;
+    background-color: #007bff; /* Keeping the special button consistent */
+    border: none;
+    padding: 8px 16px;
     border-radius: 5px;
-    margin-left: 1rem;
-    transition: background-color 0.3s ease;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
 }
 
 .navLinkSpecial:hover {
-    background-color: #e1f5fe;
-    color: #002171;
-}
-
-.navbarLogo {
+    background-color: #0056b3; /* Matching hover color with navbar */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     color: white;
-    /* Adjust color to fit your navbar's theme */
-    text-decoration: none;
-    /* Removes underline from links */
-    font-size: 2rem;
-    /* Adjust based on your preference */
-    font-weight: bold;
-    /* Makes the text thicker */
-    margin-right: auto;
-    /* Pushes everything else to the opposite side of the navbar */
-    display: flex;
-    /* Enables alignment properties */
-    align-items: center;
-    /* Vertically centers the logo with items in the navbar */
 }
 
-/* If using an image logo instead */
-.logoImage {
-    height: 50px;
-    /* Adjust based on your navbar height, maintains aspect ratio */
-    width: auto;
-    /* Adjusts width automatically to maintain aspect ratio */
-    display: block;
-    /* Removes bottom margin/padding inherent to inline elements */
-    margin-right: auto;
-    /* For positioning, if needed */
+.languageToggleButton {
+    background-color: #ff9800;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-decoration: none;
+    margin: 0 10px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.languageToggleButton:hover {
+    background-color: #e68900;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
