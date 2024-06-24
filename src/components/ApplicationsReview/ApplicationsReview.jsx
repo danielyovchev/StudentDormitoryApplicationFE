@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
 import styles from './ApplicationsReview.module.css';
+import { Paths } from '../../utils/routeConstants';
 
 
 export default function ApplicationsReview() {
@@ -41,7 +42,7 @@ export default function ApplicationsReview() {
                                     <td>{app.status}</td>
                                     <td>{app.applicationDate}</td>
                                     <td>
-                                        <Link to={`/review/${app.id}`} className={styles.actionLink}>View Details</Link>
+                                        <Link to={Paths.DOCUMENTS} className={styles.actionLink}>View Details</Link>
                                     </td>
                                 </tr>
                             ))}

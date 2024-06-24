@@ -13,7 +13,8 @@ export const Paths = {
     ATTRIBUTES: '/attributes',
     ADMIN: '/admin',
     APPLICATIONS: '/admin/review-applications',
-    RANKING: '/ranking'
+    RANKING: '/ranking',
+    DOCUMENTS: '/admin/review-applications/documents'
 }
 
 export const API_BASE_URL = "http://localhost:8081";

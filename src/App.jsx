@@ -18,6 +18,7 @@ import AdminDashboard from './components/AdminDashboard/AdminDashboard'
 import AttributeModification from './components/AttributeModifcation/AttributeModification'
 import StudentRanking from './components/StudentRanking/StudentRanking'
 import ApplicationsReview from './components/ApplicationsReview/ApplicationsReview'
+import DocumentsReview from './components/ApplicationsReview/DocumentsReview/DocumentsReview'
 import { StudentProvider } from './contexts/StudentContext'
 import { ToastContainer } from 'react-toastify'
 import './translation/i18n';
@@ -49,6 +50,7 @@ function App() {
 						<Route path={Paths.ATTRIBUTES} element={<AttributeModification />}></Route>
 						<Route path={Paths.RANKING} element={<StudentRanking />}></Route>
 						<Route path={Paths.APPLICATIONS} element={<ApplicationsReview />}></Route>
+						<Route path={Paths.DOCUMENTS} element={<DocumentsReview />}></Route>
 					</Routes>
 					<Footer />
 				</Router>
