@@ -1,6 +1,7 @@
 import { useKeycloak } from '@react-keycloak/web';
 import { useNavigate } from 'react-router-dom';
 import { Paths } from '../utils/routeConstants';
+import { toast } from 'react-toastify';
 
 export const useAuth = () => {
     const { keycloak } = useKeycloak();
@@ -11,15 +12,28 @@ export const useAuth = () => {
     };
 
     const login = () => {
-        keycloak.login();
+        keycloak.login().then(() => {
+            toast.success('Logged in successfully');
+        }).catch(() => {
+            toast.error('Failed to log in');
+        });
     };
 
     const logout = () => {
-        keycloak.logout();
+        keycloak.logout({ redirectUri: window.location.origin + Paths.HOME }).then(() => {
+            toast.success('Logged out successfully');
+            navigate(Paths.HOME);
+        }).catch(() => {
+            toast.error('Failed to log out');
+        });
     };
 
     const register = () => {
-        keycloak.register();
+        keycloak.register().then(() => {
+            toast.success('Registered successfully');
+        }).catch(() => {
+            toast.error('Failed to register');
+        });
     };
 
     const isAdmin = keycloak.hasRealmRole('admin');
