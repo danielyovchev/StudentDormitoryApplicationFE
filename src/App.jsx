@@ -22,10 +22,12 @@ import DocumentsReview from './components/ApplicationsReview/DocumentsReview/Doc
 import { StudentProvider } from './contexts/StudentContext'
 import { ToastContainer } from 'react-toastify'
 import './translation/i18n';
+import PrivateRoute from './components/Guard/PrivateRoute'
+import NotAuthorized from './components/Guard/NotAuthorized'
 
 const initOptions = {
-	onLoad: 'check-sso', // Automatically redirect to Keycloak login if not authenticated
-	flow: 'standard'          // Use the standard authorization code flow
+	onLoad: 'check-sso',
+	flow: 'standard'
 };
 
 function App() {
@@ -40,17 +42,41 @@ function App() {
 						<Route path={Paths.ABOUT} element={<About />}></Route>
 						<Route path={Paths.CONTACTS} element={<Contacts />}></Route>
 						<Route path={Paths.INFO} element={<Information />}></Route>
-						{/* <Route path={Paths.LOGIN} element={<Login />}></Route>
-					<Route path={Paths.REGISTER} element={<Register />}></Route> */}
-						<Route path={Paths.APPLY} element={<Apply />}></Route>
-						<Route path={Paths.FAMILY} element={<FamilyInfo />}></Route>
-						<Route path={Paths.OVERVIEW} element={<ApplicationDashboard />}></Route>
-						<Route path={Paths.ADMIN} element={<AdminDashboard />}></Route>
-						<Route path={Paths.RULES} element={<RuleModification />}></Route>
-						<Route path={Paths.ATTRIBUTES} element={<AttributeModification />}></Route>
+						<Route path={Paths.APPLY} element={
+							<PrivateRoute roles={['students']}>
+								<Apply />
+							</PrivateRoute>
+							}></Route>
+						<Route path={Paths.FAMILY} element={<PrivateRoute roles={['students']}>
+								<FamilyInfo />
+							</PrivateRoute>}></Route>
+						<Route path={Paths.OVERVIEW} element={<PrivateRoute roles={['students']}>
+								<ApplicationDashboard />
+							</PrivateRoute>}></Route>
+						<Route path={Paths.ADMIN} element={
+							<PrivateRoute roles={['admin']}>
+								<AdminDashboard />
+							</PrivateRoute>
+						}></Route>
+						<Route path={Paths.RULES} element={
+							<PrivateRoute roles={['admin']}>
+								<RuleModification />
+							</PrivateRoute>}></Route>
+						<Route path={Paths.ATTRIBUTES} element={
+							<PrivateRoute roles={['admin']}>
+								<AttributeModification />
+							</PrivateRoute>}></Route>
 						<Route path={Paths.RANKING} element={<StudentRanking />}></Route>
-						<Route path={Paths.APPLICATIONS} element={<ApplicationsReview />}></Route>
-						<Route path={Paths.DOCUMENTS} element={<DocumentsReview />}></Route>
+						<Route path={Paths.APPLICATIONS} element={
+							<PrivateRoute roles={['admin']}>
+								<ApplicationsReview />
+							</PrivateRoute>
+						}></Route>
+						<Route path={Paths.DOCUMENTS} element={
+							<PrivateRoute roles={['admin']}>
+								<DocumentsReview />
+							</PrivateRoute>}></Route>
+							<Route path={Paths.UNAUTHORIZED} element={<NotAuthorized />}></Route>
 					</Routes>
 					<Footer />
 				</Router>
