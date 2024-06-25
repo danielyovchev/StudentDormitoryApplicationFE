@@ -1,12 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import styles from './Header.module.css';
 import { Paths } from '../../utils/routeConstants';
 import { useAuth } from '../../hooks/useAuth';
 import { useTranslation } from 'react-i18next';
 
 export default function Header() {
-    const { isAuthenticated, login, logout, register } = useAuth();
+    const { isAuthenticated, login, logout, register, isAdmin, isStudent } = useAuth();
     const { t, i18n } = useTranslation();
 
     const handleLogout = (event) => {
@@ -30,8 +30,12 @@ export default function Header() {
                 <img src="/logo.png" alt="logo" className={styles.logoImage} />
             </Link>
             <div className={styles.navbarLinks}>
-                <Link to={Paths.OVERVIEW} className={styles.navLink}>{t('Dashboard')}</Link>
-                <Link to={Paths.ADMIN} className={styles.navLink}>{t('Admin Dashboard')}</Link>
+                {isStudent && (
+                    <Link to={Paths.OVERVIEW} className={styles.navLink}>{t('Dashboard')}</Link>
+                )}
+                {isAdmin && (
+                    <Link to={Paths.ADMIN} className={styles.navLink}>{t('Admin Dashboard')}</Link>
+                )}
                 <Link to={Paths.INFO} className={styles.navLink}>{t('The process')}</Link>
                 <Link to={Paths.ABOUT} className={styles.navLink}>{t('About Us')}</Link>
                 <Link to={Paths.CONTACTS} className={styles.navLink}>{t('Contact')}</Link>

@@ -47,10 +47,10 @@ function App() {
 								<Apply />
 							</PrivateRoute>
 							}></Route>
-						<Route path={Paths.FAMILY} element={<PrivateRoute roles={['students']}>
+						<Route path={Paths.FAMILY} element={<PrivateRoute roles={['student']}>
 								<FamilyInfo />
 							</PrivateRoute>}></Route>
-						<Route path={Paths.OVERVIEW} element={<PrivateRoute roles={['students']}>
+						<Route path={Paths.OVERVIEW} element={<PrivateRoute roles={['student']}>
 								<ApplicationDashboard />
 							</PrivateRoute>}></Route>
 						<Route path={Paths.ADMIN} element={
