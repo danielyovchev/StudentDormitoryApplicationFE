@@ -4,8 +4,6 @@ import Home from './components/Home/Home'
 import About from './components/About/About'
 import Information from './components/Information/Information'
 import Contacts from './components/Contacts/Contacts'
-import Login from './components/Login/Login'
-import Register from './components/Register/Register'
 import Footer from './components/Footer/Footer'
 import Header from './components/Header/Header'
 import { ReactKeycloakProvider } from '@react-keycloak/web'
@@ -33,8 +31,9 @@ const initOptions = {
 function App() {
 	return (
 		<ReactKeycloakProvider authClient={keycloak} initOptions={initOptions}>
-			<StudentProvider>
-				<Router>
+
+			<Router>
+				<StudentProvider>
 					<ToastContainer />
 					<Header />
 					<Routes>
@@ -43,16 +42,16 @@ function App() {
 						<Route path={Paths.CONTACTS} element={<Contacts />}></Route>
 						<Route path={Paths.INFO} element={<Information />}></Route>
 						<Route path={Paths.APPLY} element={
-							<PrivateRoute roles={['students']}>
+							<PrivateRoute roles={['student']}>
 								<Apply />
 							</PrivateRoute>
-							}></Route>
+						}></Route>
 						<Route path={Paths.FAMILY} element={<PrivateRoute roles={['student']}>
-								<FamilyInfo />
-							</PrivateRoute>}></Route>
+							<FamilyInfo />
+						</PrivateRoute>}></Route>
 						<Route path={Paths.OVERVIEW} element={<PrivateRoute roles={['student']}>
-								<ApplicationDashboard />
-							</PrivateRoute>}></Route>
+							<ApplicationDashboard />
+						</PrivateRoute>}></Route>
 						<Route path={Paths.ADMIN} element={
 							<PrivateRoute roles={['admin']}>
 								<AdminDashboard />
@@ -76,11 +75,12 @@ function App() {
 							<PrivateRoute roles={['admin']}>
 								<DocumentsReview />
 							</PrivateRoute>}></Route>
-							<Route path={Paths.UNAUTHORIZED} element={<NotAuthorized />}></Route>
+						<Route path={Paths.UNAUTHORIZED} element={<NotAuthorized />}></Route>
 					</Routes>
 					<Footer />
-				</Router>
-			</StudentProvider>
+				</StudentProvider>
+			</Router>
+
 		</ReactKeycloakProvider>
 	)
 }

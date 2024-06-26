@@ -6,7 +6,7 @@ import { StudentContext } from '../../contexts/StudentContext';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 
 export default function Apply() {
-    const { studentData, setStudentData, setFormStatus } = useContext(StudentContext);
+    const { studentData, setStudentData, setFormStatus, studentNumber } = useContext(StudentContext);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
 
@@ -29,7 +29,7 @@ export default function Apply() {
         if (!studentData.street) newErrors.street = 'Street is required';
         if (!studentData.streetNumber && studentData.streetNumber !== 0) newErrors.streetNumber = 'Street Number is required';
         if (!studentData.personalID) newErrors.personalID = 'Personal Identification Number is required';
-        if (!studentData.studentNumber) newErrors.studentNumber = 'Student Number is required';
+        if (!studentNumber) newErrors.studentNumber = 'Student Number is required';
         if (!studentData.phoneNumber) newErrors.phoneNumber = 'Phone Number is required';
         if (!studentData.grade && studentData.grade !== 0) newErrors.grade = 'Grade is required';
         if (!studentData.buildingNumber) newErrors.buildingNumber = 'Building Number is required';
@@ -62,14 +62,20 @@ export default function Apply() {
             dormitoryNumber: parseInt(studentData.buildingNumber, 10),
             roomNumber: parseInt(studentData.roomNumber, 10),
             sex: studentData.sex,
-            studentNumber: studentData.studentNumber
+            studentNumber: studentNumber // Use the studentNumber from context
         };
 
         try {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                console.error('User is not authenticated');
+                return;
+            }
             const response = await fetch(`${API_BASE_URL}/upload/student/data`, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json'
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(payload)
             });
@@ -194,11 +200,6 @@ export default function Apply() {
                     Personal Identification Number:
                     <input type="text" name="personalID" value={studentData.personalID} onChange={handleChange} />
                     {errors.personalID && <span className={styles.error}>{errors.personalID}</span>}
-                </label>
-                <label>
-                    Personal Student Number:
-                    <input type="text" name="studentNumber" value={studentData.studentNumber} onChange={handleChange} />
-                    {errors.studentNumber && <span className={styles.error}>{errors.studentNumber}</span>}
                 </label>
                 <label>
                     Phone Number:
