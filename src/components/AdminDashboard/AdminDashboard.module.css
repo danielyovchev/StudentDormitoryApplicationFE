@@ -1,6 +1,7 @@
 .dashboardContainer {
     padding: 20px;
     max-width: 600px;
+    min-height: 80vh;
     margin: auto;
     text-align: center;
     background-color: white;
@@ -8,8 +9,9 @@
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-h2 {
+.dashboardContainer h2 {
     color: #0056b3;
+    font-size: 30px;
 }
 
 .dashboardLinks {
@@ -21,6 +23,7 @@ h2 {
     background-color: #0056b3;
     color: white;
     padding: 10px 20px;
+    font-size: 18px;
     margin: 10px auto;
     width: fit-content;
     border-radius: 5px;

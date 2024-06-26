@@ -7,11 +7,36 @@ export default function AttributeModification() {
     const [attributes, setAttributes] = useState([]);
 
     useEffect(() => {
-        // Fetch attributes from the server
-        fetch(API_BASE_URL + '/attributes/get')
-            .then(response => response.json())
-            .then(data => setAttributes(data))
-            .catch(error => console.error('Error fetching attributes:', error));
+        const fetchAttributes = async () => {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                console.error('User is not authenticated');
+                return;
+            }
+            console.log('Using token:', token); // Debugging line
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/attributes/get`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: 'include' // Ensure credentials are included
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setAttributes(data);
+            } catch (error) {
+                console.error('Error fetching attributes:', error);
+            }
+        };
+
+        fetchAttributes();
     }, []);
 
     const handleChange = (event, attributeId) => {
@@ -21,22 +46,36 @@ export default function AttributeModification() {
         ));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
         console.log('Updated Attributes:', attributes);
-        // Send the updated attributes to the server
-        fetch(API_BASE_URL + '/attributes/update', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(attributes)
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Attributes updated successfully:', data);
-            })
-            .catch(error => console.error('Error updating attributes:', error));
+
+        try {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                console.error('User is not authenticated');
+                return;
+            }
+
+            const response = await fetch(`${API_BASE_URL}/attributes/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(attributes),
+                credentials: 'include' // Ensure credentials are included
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            console.log('Attributes updated successfully:', data);
+        } catch (error) {
+            console.error('Error updating attributes:', error);
+        }
     };
 
     return (
@@ -48,12 +87,12 @@ export default function AttributeModification() {
                     <div className={styles.attributeColumn}><strong>Description</strong></div>
                     <div className={styles.attributeColumn}><strong>Value</strong></div>
                 </div>
-                {attributes.map(({ id, name, description, value }) => (
+                {attributes.map(({ id, name, description, defaultValue }) => (
                     <AttributeItem
                         key={id}
                         name={name}
                         description={description}
-                        value={value}
+                        value={defaultValue}
                         onChange={(e) => handleChange(e, id)}
                     />
                 ))}

@@ -2,16 +2,42 @@ import React, { useState, useEffect } from 'react';
 import RuleItem from './RuleItem';
 import styles from './RuleModification.module.css';
 import { API_BASE_URL } from '../../utils/routeConstants';
+import { toast } from 'react-toastify';
 
 export default function RuleModification() {
     const [rules, setRules] = useState([]);
 
     useEffect(() => {
-        // Fetch rules from the server
-        fetch(API_BASE_URL+'/rule/get')
-            .then(response => response.json())
-            .then(data => setRules(data))
-            .catch(error => console.error('Error fetching rules:', error));
+        const fetchRules = async () => {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                console.error('User is not authenticated');
+                return;
+            }
+            console.log('Using token:', token); // Debugging line
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/rule/get`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    credentials: 'include' // Ensure credentials are included
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                setRules(data);
+            } catch (error) {
+                console.error('Error fetching rules:', error);
+            }
+        };
+
+        fetchRules();
     }, []);
 
     const handleScoreChange = (event, ruleId) => {
@@ -28,23 +54,36 @@ export default function RuleModification() {
         ));
     };
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log('Updated Rules:', rules);
         const updateRequest = { rules: rules };
-        // Send the updated rules to the server
-        fetch(API_BASE_URL+'/rule/update', {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updateRequest)
-        })
-            .then(response => response.json())
-            .then(data => {
-                console.log('Rules updated successfully:', data);
-            })
-            .catch(error => console.error('Error updating rules:', error));
+
+        try {
+            const token = sessionStorage.getItem('token');
+            if (!token) {
+                console.error('User is not authenticated');
+                return;
+            }
+
+            const response = await fetch(`${API_BASE_URL}/rule/update`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(updateRequest),
+                credentials: 'include'
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            toast.success('Rules updated successfully:', data);
+        } catch (error) {
+            toast.error('Error updating rules:', error);
+        }
     };
 
     return (
