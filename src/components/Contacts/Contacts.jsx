@@ -1,36 +1,38 @@
-import styles from './Contacts.module.css'; // Assuming you have CSS module setup
-
+import styles from './Contacts.module.css';
+import { useTranslation } from 'react-i18next';
 
 export default function Contacts() {
+    const { t } = useTranslation();
+
     return (
-        <>
+        <div className={styles.contactsContainer}>
             <section className={styles.contactSection}>
-                <h2>Contact Persons for Application</h2>
+                <h2>{t('contacts.contactPersonsTitle')}</h2>
                 <div className={styles.person}>
-                    <h3>Jane Doe</h3>
-                    <p>Email: jane.doe@example.com</p>
-                    <p>Phone: (123) 456-7890</p>
+                    <h3>{t('contacts.person1.name')}</h3>
+                    <p>{t('contacts.email')}: {t('contacts.person1.email')}</p>
+                    <p>{t('contacts.phone')}: {t('contacts.person1.phone')}</p>
                 </div>
                 <div className={styles.person}>
-                    <h3>John Smith</h3>
-                    <p>Email: john.smith@example.com</p>
-                    <p>Phone: (098) 765-4321</p>
+                    <h3>{t('contacts.person2.name')}</h3>
+                    <p>{t('contacts.email')}: {t('contacts.person2.email')}</p>
+                    <p>{t('contacts.phone')}: {t('contacts.person2.phone')}</p>
                 </div>
             </section>
 
             <section className={styles.dormSection}>
-                <h2>Dormitory Locations</h2>
+                <h2>{t('contacts.dormitoryLocationsTitle')}</h2>
                 <div className={styles.dormitory}>
-                    <h3>Dormitory A</h3>
-                    <p>Location: 123 College St, City Name, State</p>
-                    <p>Phone: (321) 654-9870</p>
+                    <h3>{t('contacts.dormitory1.name')}</h3>
+                    <p>{t('contacts.location')}: {t('contacts.dormitory1.location')}</p>
+                    <p>{t('contacts.phone')}: {t('contacts.dormitory1.phone')}</p>
                 </div>
                 <div className={styles.dormitory}>
-                    <h3>Dormitory B</h3>
-                    <p>Location: 456 University Ave, City Name, State</p>
-                    <p>Phone: (654) 321-8765</p>
+                    <h3>{t('contacts.dormitory2.name')}</h3>
+                    <p>{t('contacts.location')}: {t('contacts.dormitory2.location')}</p>
+                    <p>{t('contacts.phone')}: {t('contacts.dormitory2.phone')}</p>
                 </div>
             </section>
-        </>
+        </div>
     );
 }

@@ -1,26 +1,43 @@
-.navbar {
+.homeContainer {
         display: flex;
-        justify-content: center;
-        padding: 1rem 0;
-}
-
-.navbar a {
-        color: white;
-        padding: 0 1rem;
-        text-decoration: none;
-        transition: color 0.3s ease;
-}
-
-.navbar a:hover {
-        color: #f7c948;
-}
-
-.welcome-section,
-.features-section {
-        margin: 2rem 5%;
+        flex-direction: column;
+        justify-content: space-between;
+        min-height: 100vh;
+        padding: 20px;
+        background-color: #f4f4f9;
+    }
+    
+    .welcomeSection {
         text-align: center;
-}
-
-.features-section article {
-        margin-bottom: 2rem;
-}
+        margin-bottom: 40px;
+    }
+    
+    .featureSection {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        flex-grow: 1;
+    }
+    
+    .featureSection article {
+        background: #fff;
+        border-radius: 10px;
+        padding: 20px;
+        margin: 10px;
+        width: 45%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    
+    .featureSection h3 {
+        color: #0056b3;
+    }
+    
+    .featureSection p {
+        color: #333;
+    }
+    
+    /* Ensure the footer is at the bottom of the page */
+    .footer {
+        margin-top: auto;
+    }
+    

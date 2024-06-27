@@ -5,7 +5,7 @@ import { toast } from 'react-toastify';
 const StudentContext = createContext();
 
 const StudentProvider = ({ children }) => {
-    const { initialized, studentNumber } = useAuth();
+    const { initialized, studentNumber, isAuthenticated } = useAuth();
 
     const [studentData, setStudentData] = useState({
         educationForm: 'regular',
@@ -37,7 +37,7 @@ const StudentProvider = ({ children }) => {
                 ...prevState,
                 studentNumber
             }));
-        } else if (initialized && !studentNumber) {
+        } else if (initialized && !studentNumber && isAuthenticated) {
             toast.error('Student number not found in Keycloak token.');
         }
     }, [initialized, studentNumber]);

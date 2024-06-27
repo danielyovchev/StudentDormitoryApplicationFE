@@ -1,38 +1,38 @@
 import React from 'react';
 import styles from "./Home.module.css";
+import { useTranslation } from 'react-i18next';
 
 export default function Home() {
+    const { t } = useTranslation();
+
     return (
-        <div>
-            <section className="welcome-section">
-                <h2>About the System</h2>
-                <p>
-                    Our Dormitory Application System allows students to view available dormitory rooms, apply for accommodation, and manage their housing preferences. Begin your journey to finding the perfect room on campus today!
-                </p>
+        <div className={styles.homeContainer}>
+            <section className={styles.welcomeSection}>
+                <h2>{t('home.aboutSystemTitle')}</h2>
+                <p>{t('home.aboutSystemDescription')}</p>
             </section>
 
-            <section className="features-section">
+            <section className={styles.featureSection}>
                 <article>
-                    <h3>Explore Dormitories</h3>
-                    <p>
-                        Discover all our dormitory options, complete with details on amenities, locations, and room types.
-                    </p>
+                    <h3>{t('home.exploreDormitoriesTitle')}</h3>
+                    <p>{t('home.exploreDormitoriesDescription')}</p>
                 </article>
 
                 <article>
-                    <h3>Simple Application Process</h3>
-                    <p>
-                        Our streamlined application process makes it easy to submit your preferences and required documents online.
-                    </p>
+                    <h3>{t('home.simpleApplicationProcessTitle')}</h3>
+                    <p>{t('home.simpleApplicationProcessDescription')}</p>
                 </article>
 
                 <article>
-                    <h3>24/7 Support</h3>
-                    <p>
-                        Our dedicated support team is here to help you with any questions or concerns at any time of the day.
-                    </p>
+                    <h3>{t('home.supportTitle')}</h3>
+                    <p>{t('home.supportDescription')}</p>
+                </article>
+
+                <article>
+                    <h3>{t('home.additionalFeatureTitle')}</h3>
+                    <p>{t('home.additionalFeatureDescription')}</p>
                 </article>
             </section>
         </div>
     );
-};
+}

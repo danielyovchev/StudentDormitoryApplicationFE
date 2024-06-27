@@ -6,5 +6,77 @@
     "Contact": "Contact",
     "Logout": "Logout",
     "Login": "Login",
-    "Register": "Register"
+    "Register": "Register",
+    "home": {
+        "aboutSystemTitle": "About the System",
+        "aboutSystemDescription": "Our Dormitory Application System allows students to view available dormitory rooms, apply for accommodation, and manage their housing preferences. Begin your journey to finding the perfect room on campus today!",
+        "exploreDormitoriesTitle": "Explore Dormitories",
+        "exploreDormitoriesDescription": "Discover all our dormitory options, complete with details on amenities, locations, and room types.",
+        "simpleApplicationProcessTitle": "Simple Application Process",
+        "simpleApplicationProcessDescription": "Our streamlined application process makes it easy to submit your preferences and required documents online.",
+        "supportTitle": "24/7 Support",
+        "supportDescription": "Our dedicated support team is here to help you with any questions or concerns at any time of the day.",
+        "additionalFeatureTitle": "Community Events",
+        "additionalFeatureDescription": "Join various community events and make new friends. We organize events throughout the year for all dormitory residents."
+    },
+    "information": {
+        "applicationProcessTitle": "Application Process",
+        "applicationProcessDescription": "To apply for a dormitory space, follow these steps:",
+        "step1": "Log in to the DormApp portal using your student credentials.",
+        "step2": "Navigate to the 'Apply for Dormitory' section and fill out the application form.",
+        "step3": "Submit your application and wait for the confirmation email.",
+        "step4": "Track your application status via your DormApp account.",
+        "selectionCriteriaTitle": "Selection Criteria",
+        "selectionCriteriaDescription": "The ranking of applications is based on the following criteria:",
+        "criteria1": "Proximity to campus: Students living further away from campus are given priority.",
+        "criteria2": "Academic performance: High academic achievers receive additional points.",
+        "criteria3": "Financial need: Students demonstrating significant financial need are prioritized.",
+        "criteria4": "Year of study: Priority may be given based on the student's year of study.",
+        "guaranteeDescription": "Students are guaranteed a place if they are in one of the following cases:",
+        "guarantee1": "Deceased parent.",
+        "guarantee2": "Students raised in homes for children deprived of parental care - official note from the respective institution.",
+        "guarantee3": "Students from large families, if one of the brothers or sisters is a student.",
+        "guarantee4": "Students with 70% reduced ability to work.",
+        "guarantee5": "Families with a minor child, if one of the spouses is in regular education.",
+        "guarantee6": "Foreign students studying based on intergovernmental agreements.",
+        "otherRankingCriteria": "Otherwise, the ranking is based on their grades."
+    },
+    "contacts": {
+        "contactPersonsTitle": "Contact Persons for Application",
+        "person1": {
+            "name": "Irina Kiryakova",
+            "email": "irinak@tu-varna.bg",
+            "phone": "052 303 466"
+        },
+        "person2": {
+            "name": "Krasimira Ivanova",
+            "email": "n/a",
+            "phone": "052 303 239"
+        },
+        "dormitoryLocationsTitle": "Dormitory Locations",
+        "dormitory1": {
+            "name": "Dormitory 13",
+            "location": "Varna, Levski district, Dr. Basanovich St.",
+            "phone": "052 303 467; 0893 653 004"
+        },
+        "dormitory2": {
+            "name": "Dormitory 18",
+            "location": "Varna, Levski district, Dubrovnik St.",
+            "phone": "052 303 279; 0896 666 146"
+        },
+        "email": "Email",
+        "phone": "Phone",
+        "location": "Location"
+    },
+    "about": {
+        "title": "Technical University - Varna",
+        "paragraph1": "Technical University - Varna has two student dormitories located in the university area, with a capacity of about 955 places. The dormitories have central heating and hot water, and all rooms have private bathrooms.",
+        "paragraph2": "Depending on the architectural projects of the buildings: Dormitory 18 rooms have three beds each. Dormitory 13 rooms have two or three beds, some with kitchenettes and balconies. There is internet connection everywhere, and nearby the dormitories, there are public laundries, copy centers, a fitness center, snack bars, and cafes.",
+        "paragraph3": "In Dormitory 18, there is a Student canteen offering cooked meals at preferential prices for students. The working hours are adapted to the academic schedule.",
+        "paragraph4": "Accommodation in the dormitories is carried out by order of the Rector of TU - Varna, in compliance with the statutory order for this in accordance with the 'Regulation for the use of student dormitories and canteens'.",
+        "paragraph5": "Students have access to a subsidized dining room located on the ground floor of Block 18.",
+        "imagesTitle": "Images of Dormitories",
+        "dorm18": "Dormitory 18",
+        "dorm13": "Dormitory 13"
+    }
 }

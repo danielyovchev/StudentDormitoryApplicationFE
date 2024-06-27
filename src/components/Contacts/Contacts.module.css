@@ -1,28 +1,28 @@
-.contactsPage {
-    padding: 2rem;
-    background-color: #f9f9f9;
-  }
-  
-  .contactSection, .dormSection {
-    margin-bottom: 2rem;
-  }
-  
-  .person, .dormitory {
-    background-color: white;
-    padding: 1rem;
-    margin-top: 1rem;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-  }
-  
-  h2 {
-    color: #0056b3;
-  }
-  
-  h3 {
-    color: #002171;
-  }
-  
-  p {
-    color: #333;
-    line-height: 1.6;
-  }
+.contactsContainer {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: #f4f4f9;
+}
+
+.contactSection, .dormSection {
+  background: #fff;
+  border-radius: 10px;
+  padding: 20px;
+  margin: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.contactSection h2, .dormSection h2 {
+  color: #0056b3;
+}
+
+.contactSection p, .dormSection p {
+  color: #333;
+}
+
+.person, .dormitory {
+  margin-bottom: 15px;
+}
