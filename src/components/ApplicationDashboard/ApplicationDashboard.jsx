@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import styles from './ApplicationDashboard.module.css';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
@@ -6,11 +6,39 @@ import { StudentContext } from '../../contexts/StudentContext';
 import { useAuth } from '../../hooks/useAuth';
 
 export default function ApplicationDashboard() {
-    const { studentData, formStatus, studentNumber } = useContext(StudentContext);
+    const { studentData, formStatus, setFormStatus, studentNumber } = useContext(StudentContext);
     const { keycloak } = useAuth();
     const [uploads, setUploads] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
+
+    useEffect(() => {
+        if (studentNumber && keycloak.token) {
+            fetchStudentData();
+        }
+    }, [studentNumber, keycloak.token]);
+
+    const fetchStudentData = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/get/student/${studentNumber}/data`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${keycloak.token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data) {
+                    setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
+                }
+            } else {
+                console.error('Failed to fetch student data');
+            }
+        } catch (error) {
+            console.error('Error fetching student data:', error);
+        }
+    };
 
     const categories = {
         PARENTDEATH: "Death of Parent",
@@ -28,11 +56,6 @@ export default function ApplicationDashboard() {
             formData.append('file', file);
             formData.append('documentType', selectedCategory);
             formData.append('studentNumber', studentNumber);
-
-            // Log formData contents for debugging
-            for (let [key, value] of formData.entries()) {
-                console.log(`${key}: ${value}`);
-            }
 
             try {
                 const response = await fetch(`${API_BASE_URL}/upload/student/documents`, {
@@ -81,13 +104,13 @@ export default function ApplicationDashboard() {
                         )}
                     </li>
                     <li>
-                        <strong>Family Information Form: {formStatus.familyForm ? 'Completed' : 'Not Completed'}</strong>                      
+                        <strong>Family Information Form: {formStatus.familyForm ? 'Completed' : 'Not Completed'}</strong>
                         {!formStatus.familyForm && formStatus.studentForm && (
                             <Link to={Paths.FAMILY} className={styles.editLink}>Fill Out Form</Link>
                         )}
                     </li>
                 </ul>
-                {studentNumber && (
+                {studentNumber && formStatus.studentForm && (
                     <div className={styles.documentUploads}>
                         <h3>Upload Required Documents</h3>
                         {Object.entries(uploads).map(([key, value]) => (
