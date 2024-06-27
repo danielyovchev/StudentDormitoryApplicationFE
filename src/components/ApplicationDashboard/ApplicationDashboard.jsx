@@ -3,33 +3,43 @@ import { Link } from 'react-router-dom';
 import styles from './ApplicationDashboard.module.css';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 import { StudentContext } from '../../contexts/StudentContext';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function ApplicationDashboard() {
-    const { studentData, formStatus } = useContext(StudentContext);
+    const { studentData, formStatus, studentNumber } = useContext(StudentContext);
+    const { keycloak } = useAuth();
     const [uploads, setUploads] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
 
     const categories = {
-        deathParent: "Death of Parent",
-        raisedInHomes: "Raised in Homes for Children Deprived of Parental Care",
-        largeFamilies: "Large Families",
-        reducedWorkAbility: "Reduced Ability to Work",
-        havingChild: "Having Child",
-        foreignStudents: "Foreign Students"
+        PARENTDEATH: "Death of Parent",
+        HOMELESS: "Raised in Homes for Children Deprived of Parental Care",
+        LARGEFAMILY: "Large Families",
+        REDUCEDABILITY: "Reduced Ability to Work",
+        CHILD: "Having Child",
+        FOREIGN: "Foreign Students"
     };
 
     const handleFileChange = async (event) => {
         const file = event.target.files[0];
-        if (file && studentData.personalID) {
+        if (file && studentNumber && keycloak.token) {
             const formData = new FormData();
             formData.append('file', file);
-            formData.append('category', selectedCategory);
-            formData.append('studentNumber', studentData.personalID);
+            formData.append('documentType', selectedCategory);
+            formData.append('studentNumber', studentNumber);
+
+            // Log formData contents for debugging
+            for (let [key, value] of formData.entries()) {
+                console.log(`${key}: ${value}`);
+            }
 
             try {
                 const response = await fetch(`${API_BASE_URL}/upload/student/documents`, {
                     method: 'POST',
+                    headers: {
+                        'Authorization': `Bearer ${keycloak.token}`
+                    },
                     body: formData
                 });
 
@@ -44,6 +54,8 @@ export default function ApplicationDashboard() {
             } catch (error) {
                 console.error('Error uploading file:', error);
             }
+        } else {
+            console.error('Missing required information for file upload');
         }
     };
 
@@ -75,7 +87,7 @@ export default function ApplicationDashboard() {
                         )}
                     </li>
                 </ul>
-                {studentData.personalID && (
+                {studentNumber && (
                     <div className={styles.documentUploads}>
                         <h3>Upload Required Documents</h3>
                         {Object.entries(uploads).map(([key, value]) => (
