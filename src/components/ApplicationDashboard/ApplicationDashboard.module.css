@@ -1,18 +1,13 @@
 .overviewContainer {
     padding: 20px;
-    width: 100%;
-    max-width: 1200px;
+    max-width: 70%;
     margin: auto;
     min-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
 }
 
 .formList {
     list-style: none;
     padding: 0;
-    width: 100%;
 }
 
 .formList li {
@@ -21,9 +16,7 @@
     margin-bottom: 10px;
     border-radius: 5px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    position: relative;
 }
 
 .formList li strong {
@@ -31,12 +24,15 @@
 }
 
 .editLink {
+    position: absolute;
+    right: 20px;
+    top: 50%;
+    transform: translateY(-50%);
     background-color: #0056b3;
     color: white;
     padding: 8px 16px;
     border-radius: 5px;
     text-decoration: none;
-    transition: background-color 0.3s;
 }
 
 .editLink:hover {
@@ -44,31 +40,25 @@
 }
 
 .submitButton {
-    display: inline-block;
+    display: block;
+    width: fit-content;
     padding: 10px 20px;
-    margin: 20px 0;
+    margin: 20px auto;
     background-color: #4CAF50; /* Green for submission */
     color: white;
     border-radius: 5px;
     text-align: center;
     text-decoration: none;
-    transition: background-color 0.3s;
 }
 
 .submitButton:hover {
     background-color: #45a049;
 }
 
-.documentUploads {
-    width: 100%;
-    margin-top: 20px;
-}
-
 .selectCategory {
-    margin: 10px 0;
+    margin: 10px;
     padding: 8px;
     border-radius: 4px;
-    width: calc(100% - 20px); /* Make it full width minus margin */
 }
 
 .addButton {
@@ -79,9 +69,32 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 .addButton:hover {
     background-color: #45a049;
+}
+
+.applicationContainer {
+    background-color: white;
+    padding: 20px;
+    margin: 20px auto;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    max-width: 600px;
+    text-align: center;
+}
+
+.applicationContainer h2 {
+    color: #0056b3;
+    margin-bottom: 20px;
+}
+
+.applicationContainer p {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.applicationContainer strong {
+    color: #333;
 }

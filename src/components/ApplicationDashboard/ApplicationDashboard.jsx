@@ -8,6 +8,7 @@ import { useAuth } from '../../hooks/useAuth';
 export default function ApplicationDashboard() {
     const { studentData, formStatus, setFormStatus, studentNumber } = useContext(StudentContext);
     const { keycloak } = useAuth();
+    const [applicationData, setApplicationData] = useState(null);
     const [uploads, setUploads] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
@@ -20,7 +21,7 @@ export default function ApplicationDashboard() {
 
     const fetchStudentData = async () => {
         try {
-            const response = await fetch(`${API_BASE_URL}/get/student/${studentNumber}/data`, {
+            const response = await fetch(`${API_BASE_URL}/apply/get/${studentNumber}`, {
                 method: 'GET',
                 headers: {
                     'Authorization': `Bearer ${keycloak.token}`
@@ -29,7 +30,9 @@ export default function ApplicationDashboard() {
 
             if (response.ok) {
                 const data = await response.json();
-                if (data) {
+                if (data && data.applicationDTO) {
+                    setApplicationData(data.applicationDTO);
+                } else {
                     setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
                 }
             } else {
@@ -89,6 +92,17 @@ export default function ApplicationDashboard() {
     const handleAddFileClick = () => {
         setShowUpload(true);
     };
+
+    if (applicationData) {
+        return (
+            <div className={styles.applicationContainer}>
+                <h2>Application Details</h2>
+                <p><strong>Student Name:</strong> {applicationData.studentName}</p>
+                <p><strong>Application Date:</strong> {applicationData.applicationDate}</p>
+                <p><strong>Status:</strong> {applicationData.status}</p>
+            </div>
+        );
+    }
 
     return (
         <>
