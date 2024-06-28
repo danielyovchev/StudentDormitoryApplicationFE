@@ -23,7 +23,7 @@ const StudentProvider = ({ children }) => {
         phoneNumber: '',
         grade: '',
         yearOfStudy: 'first',
-        preserveRoom: false // Checkbox for preserving room
+        preserveRoom: false
     });
 
     const [formStatus, setFormStatus] = useState({

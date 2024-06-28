@@ -1,21 +1,17 @@
 .reviewContainer {
     padding: 20px;
-    max-width: 800px;
+    max-width: 80%;
     margin: auto;
-    background-color: white;
-    border-radius: 8px;
+    min-height: 90vh;
+    background-color: #f9f9f9;
+    border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-}
-
-h2 {
-    color: #0056b3;
-    text-align: center;
 }
 
 .applicationsTable {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
+    margin: 20px 0;
 }
 
 .applicationsTable th, .applicationsTable td {
@@ -25,12 +21,22 @@ h2 {
 }
 
 .applicationsTable th {
+    background-color: #0056b3;
+    color: white;
+}
+
+.applicationsTable tr:nth-child(even) {
     background-color: #f2f2f2;
+}
+
+.applicationsTable tr:hover {
+    background-color: #ddd;
 }
 
 .actionLink {
     color: #0056b3;
     text-decoration: none;
+    font-weight: bold;
 }
 
 .actionLink:hover {

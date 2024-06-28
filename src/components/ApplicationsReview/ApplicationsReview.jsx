@@ -1,25 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'; // Assuming you're using React Router for navigation
 import styles from './ApplicationsReview.module.css';
-import { Paths } from '../../utils/routeConstants';
-
+import { API_BASE_URL, Paths } from '../../utils/routeConstants';
+import { useAuth } from '../../hooks/useAuth';
 
 export default function ApplicationsReview() {
+    const { keycloak } = useAuth();
     const [applications, setApplications] = useState([]);
 
     useEffect(() => {
-        // Simulate fetching data from a server
         const fetchApplications = async () => {
-            // Replace this with actual API call
-            const fetchedApplications = [
-                { id: 1, studentName: "John Doe", status: "Pending", applicationDate: "2024-04-12" },
-                { id: 2, studentName: "Jane Smith", status: "Pending", applicationDate: "2024-04-11" }
-            ];
-            setApplications(fetchedApplications);
+            try {
+                const response = await fetch(`${API_BASE_URL}/review/students`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${keycloak.token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setApplications(data.applications);
+                } else {
+                    console.error('Failed to fetch applications');
+                }
+            } catch (error) {
+                console.error('Error fetching applications:', error);
+            }
         };
 
-        fetchApplications();
-    }, []);
+        if (keycloak.token) {
+            fetchApplications();
+        }
+    }, [keycloak.token]);
 
     return (
         <>
@@ -36,8 +49,8 @@ export default function ApplicationsReview() {
                             </tr>
                         </thead>
                         <tbody>
-                            {applications.map((app) => (
-                                <tr key={app.id}>
+                            {applications.map((app, index) => (
+                                <tr key={index}>
                                     <td>{app.studentName}</td>
                                     <td>{app.status}</td>
                                     <td>{app.applicationDate}</td>
