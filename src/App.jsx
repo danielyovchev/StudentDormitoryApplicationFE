@@ -22,6 +22,7 @@ import { ToastContainer } from 'react-toastify'
 import './translation/i18n';
 import PrivateRoute from './components/Guard/PrivateRoute'
 import NotAuthorized from './components/Guard/NotAuthorized'
+import { FamilyProvider } from './contexts/FamilyContext'
 
 const initOptions = {
 	onLoad: 'check-sso',
@@ -34,50 +35,52 @@ function App() {
 
 			<Router>
 				<StudentProvider>
-					<ToastContainer />
-					<Header />
-					<Routes>
-						<Route path={Paths.HOME} element={<Home />}></Route>
-						<Route path={Paths.ABOUT} element={<About />}></Route>
-						<Route path={Paths.CONTACTS} element={<Contacts />}></Route>
-						<Route path={Paths.INFO} element={<Information />}></Route>
-						<Route path={Paths.APPLY} element={
-							<PrivateRoute roles={['student']}>
-								<Apply />
-							</PrivateRoute>
-						}></Route>
-						<Route path={Paths.FAMILY} element={<PrivateRoute roles={['student']}>
-							<FamilyInfo />
-						</PrivateRoute>}></Route>
-						<Route path={Paths.OVERVIEW} element={<PrivateRoute roles={['student']}>
-							<ApplicationDashboard />
-						</PrivateRoute>}></Route>
-						<Route path={Paths.ADMIN} element={
-							<PrivateRoute roles={['admin']}>
-								<AdminDashboard />
-							</PrivateRoute>
-						}></Route>
-						<Route path={Paths.RULES} element={
-							<PrivateRoute roles={['admin']}>
-								<RuleModification />
+					<FamilyProvider>
+						<ToastContainer />
+						<Header />
+						<Routes>
+							<Route path={Paths.HOME} element={<Home />}></Route>
+							<Route path={Paths.ABOUT} element={<About />}></Route>
+							<Route path={Paths.CONTACTS} element={<Contacts />}></Route>
+							<Route path={Paths.INFO} element={<Information />}></Route>
+							<Route path={Paths.APPLY} element={
+								<PrivateRoute roles={['student']}>
+									<Apply />
+								</PrivateRoute>
+							}></Route>
+							<Route path={Paths.FAMILY} element={<PrivateRoute roles={['student']}>
+								<FamilyInfo />
 							</PrivateRoute>}></Route>
-						<Route path={Paths.ATTRIBUTES} element={
-							<PrivateRoute roles={['admin']}>
-								<AttributeModification />
+							<Route path={Paths.OVERVIEW} element={<PrivateRoute roles={['student']}>
+								<ApplicationDashboard />
 							</PrivateRoute>}></Route>
-						<Route path={Paths.RANKING} element={<StudentRanking />}></Route>
-						<Route path={Paths.APPLICATIONS} element={
-							<PrivateRoute roles={['admin']}>
-								<ApplicationsReview />
-							</PrivateRoute>
-						}></Route>
-						<Route path={Paths.DOCUMENTS} element={
-							<PrivateRoute roles={['admin']}>
-								<DocumentsReview />
-							</PrivateRoute>}></Route>
-						<Route path={Paths.UNAUTHORIZED} element={<NotAuthorized />}></Route>
-					</Routes>
-					<Footer />
+							<Route path={Paths.ADMIN} element={
+								<PrivateRoute roles={['admin']}>
+									<AdminDashboard />
+								</PrivateRoute>
+							}></Route>
+							<Route path={Paths.RULES} element={
+								<PrivateRoute roles={['admin']}>
+									<RuleModification />
+								</PrivateRoute>}></Route>
+							<Route path={Paths.ATTRIBUTES} element={
+								<PrivateRoute roles={['admin']}>
+									<AttributeModification />
+								</PrivateRoute>}></Route>
+							<Route path={Paths.RANKING} element={<StudentRanking />}></Route>
+							<Route path={Paths.APPLICATIONS} element={
+								<PrivateRoute roles={['admin']}>
+									<ApplicationsReview />
+								</PrivateRoute>
+							}></Route>
+							<Route path={Paths.DOCUMENTS} element={
+								<PrivateRoute roles={['admin']}>
+									<DocumentsReview />
+								</PrivateRoute>}></Route>
+							<Route path={Paths.UNAUTHORIZED} element={<NotAuthorized />}></Route>
+						</Routes>
+						<Footer />
+					</FamilyProvider>
 				</StudentProvider>
 			</Router>
 

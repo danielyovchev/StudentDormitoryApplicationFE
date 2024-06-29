@@ -1,0 +1,41 @@
+.parentForm {
+    margin-bottom: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.parentForm h3 {
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.parentForm label {
+    display: block;
+    margin-bottom: 10px;
+    color: #555;
+}
+
+.parentForm input {
+    width: calc(100% - 22px);
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.parentForm button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #2196f3;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.parentForm button:hover {
+    background-color: #1e88e5;
+}
