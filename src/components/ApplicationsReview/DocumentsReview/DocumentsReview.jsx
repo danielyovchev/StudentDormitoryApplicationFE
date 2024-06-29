@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { API_BASE_URL } from '../../../utils/routeConstants';
 import styles from './DocumentsReview.module.css';
 import { useAuth } from '../../../hooks/useAuth';
+import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 export default function DocumentsReview() {
     const { keycloak } = useAuth();
@@ -9,15 +11,19 @@ export default function DocumentsReview() {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+    const studentNumber = params.get('studentNumber');
+
     useEffect(() => {
-        if (!keycloak.token) {
-            console.error('Missing token');
+        if (!keycloak.token || !studentNumber) {
+            console.error('Missing token or studentNumber');
             return;
         }
 
         const fetchDocuments = async () => {
             try {
-                const response = await fetch(`${API_BASE_URL}/get/student/206206/documents`, {
+                const response = await fetch(`${API_BASE_URL}/get/student/${studentNumber}/documents`, {
                     method: 'GET',
                     headers: {
                         'Authorization': `Bearer ${keycloak.token}`
@@ -37,11 +43,11 @@ export default function DocumentsReview() {
         };
 
         fetchDocuments();
-    }, [keycloak.token]);
+    }, [keycloak.token, studentNumber]);
 
     const handleValidate = async (documentId) => {
         try {
-            const response = await fetch(`${API_BASE_URL}/documents/validate/${documentId}`, {
+            const response = await fetch(`${API_BASE_URL}/review/document/validate/${documentId}`, {
                 method: 'PUT',
                 headers: {
                     'Authorization': `Bearer ${keycloak.token}`,
@@ -49,8 +55,9 @@ export default function DocumentsReview() {
                 }
             });
             const data = await response.json();
-            if (data.success) {
+            if (data.message) {
                 // Remove the validated document from the list
+                toast.success(data.message);
                 setDocuments(prevDocuments => prevDocuments.filter(doc => doc.id !== documentId));
             } else {
                 console.error('Validation failed:', data.message);
@@ -60,21 +67,19 @@ export default function DocumentsReview() {
         }
     };
 
-    const renderFile = (file, fileName) => {
-        if (!file || !fileName) {
+    const renderFile = (fileUrl, fileName) => {
+        if (!fileUrl || !fileName) {
             return <p>No file available</p>;
         }
 
         const fileType = fileName.split('.').pop().toLowerCase();
-        const blob = new Blob([new Uint8Array(file)], { type: 'application/octet-stream' });
-        const url = URL.createObjectURL(blob);
 
         if (fileType === 'pdf') {
-            return <embed src={url} width="100%" height="500px" type="application/pdf" />;
+            return <embed src={fileUrl} width="100%" height="500px" type="application/pdf" />;
         } else if (['jpg', 'jpeg', 'png', 'gif'].includes(fileType)) {
-            return <img src={url} alt={fileName} className={styles.documentImage} />;
+            return <img src={fileUrl} alt={fileName} className={styles.documentImage} />;
         } else {
-            return <a href={url} download={fileName}>{fileName}</a>;
+            return <a href={fileUrl} download={fileName}>{fileName}</a>;
         }
     };
 
@@ -101,7 +106,7 @@ export default function DocumentsReview() {
                                 <p><strong>Student Number:</strong> {document.studentNumber || 'N/A'}</p>
                                 <p><strong>Category:</strong> {document.documentType || 'N/A'}</p>
                                 <p><strong>File:</strong></p>
-                                {renderFile(document.file, document.fileName)}
+                                {renderFile(document.fileUrl, document.fileName)}
                             </div>
                             <button onClick={() => handleValidate(document.id)} className={styles.validateButton}>Validate</button>
                         </li>

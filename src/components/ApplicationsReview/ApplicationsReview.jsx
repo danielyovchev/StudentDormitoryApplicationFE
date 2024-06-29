@@ -42,6 +42,7 @@ export default function ApplicationsReview() {
                     <table className={styles.applicationsTable}>
                         <thead>
                             <tr>
+                                <th>Student Number</th>
                                 <th>Name</th>
                                 <th>Status</th>
                                 <th>Application Date</th>
@@ -51,11 +52,12 @@ export default function ApplicationsReview() {
                         <tbody>
                             {applications.map((app, index) => (
                                 <tr key={index}>
+                                    <td>{app.studentId}</td> {/* Display studentId */}
                                     <td>{app.studentName}</td>
                                     <td>{app.status}</td>
                                     <td>{app.applicationDate}</td>
                                     <td>
-                                        <Link to={Paths.DOCUMENTS} className={styles.actionLink}>View Details</Link>
+                                        <Link to={`${Paths.DOCUMENTS}?studentNumber=${app.studentId}`} className={styles.actionLink}>View Details</Link>
                                     </td>
                                 </tr>
                             ))}

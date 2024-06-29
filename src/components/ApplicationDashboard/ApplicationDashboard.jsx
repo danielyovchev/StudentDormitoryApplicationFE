@@ -12,10 +12,12 @@ export default function ApplicationDashboard() {
     const [uploads, setUploads] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
+    const [documents, setDocuments] = useState([]);
 
     useEffect(() => {
         if (studentNumber && keycloak.token) {
             fetchStudentData();
+            fetchStudentDocuments();
         }
     }, [studentNumber, keycloak.token]);
 
@@ -40,6 +42,31 @@ export default function ApplicationDashboard() {
             }
         } catch (error) {
             console.error('Error fetching student data:', error);
+        }
+    };
+
+    const fetchStudentDocuments = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/get/student/${studentNumber}/documents`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${keycloak.token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Documents fetched:', data); // Log the fetched data
+                if (data && Array.isArray(data.documents)) {
+                    setDocuments(data.documents);
+                } else {
+                    console.error('Fetched data does not contain documents array:', data);
+                }
+            } else {
+                console.error('Failed to fetch student documents');
+            }
+        } catch (error) {
+            console.error('Error fetching student documents:', error);
         }
     };
 
@@ -74,6 +101,7 @@ export default function ApplicationDashboard() {
                     setUploads(prev => ({ ...prev, [selectedCategory]: file.name }));
                     setShowUpload(false);
                     setSelectedCategory('');
+                    fetchStudentDocuments(); // Refresh the documents list after upload
                 } else {
                     console.error('File upload failed');
                 }
@@ -92,17 +120,6 @@ export default function ApplicationDashboard() {
     const handleAddFileClick = () => {
         setShowUpload(true);
     };
-
-    if (applicationData) {
-        return (
-            <div className={styles.applicationContainer}>
-                <h2>Application Details</h2>
-                <p><strong>Student Name:</strong> {applicationData.studentName}</p>
-                <p><strong>Application Date:</strong> {applicationData.applicationDate}</p>
-                <p><strong>Status:</strong> {applicationData.status}</p>
-            </div>
-        );
-    }
 
     return (
         <>
@@ -146,6 +163,14 @@ export default function ApplicationDashboard() {
                         )}
                     </div>
                 )}
+                <h3>Uploaded Documents</h3>
+                <ul className={styles.documentList}>
+                    {documents.map(document => (
+                        <li key={document.fileUrl}>
+                            <a href={document.fileUrl} target="_blank" rel="noopener noreferrer">{document.fileName || "No Name Provided"}</a> - {document.documentType || "No Type Provided"}
+                        </li>
+                    ))}
+                </ul>
                 {(!formStatus.studentForm || !formStatus.familyForm) && (
                     <Link to="/submit-application" className={styles.submitButton}>Review and Submit Application</Link>
                 )}

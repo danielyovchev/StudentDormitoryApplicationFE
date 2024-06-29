@@ -80,6 +80,8 @@ export const useAuth = () => {
 
     const tokenParsed = keycloak.tokenParsed || JSON.parse(sessionStorage.getItem('tokenParsed'));
     const studentNumber = tokenParsed?.studentNumber || null;
+    const givenName = keycloak.tokenParsed?.given_name || null;
+    const familyName = keycloak.tokenParsed?.family_name || null;
 
     return {
         isAuthenticated: isAuthenticated(),
@@ -90,6 +92,8 @@ export const useAuth = () => {
         initialized,
         isAdmin,
         isStudent,
-        studentNumber
+        studentNumber,
+        givenName,
+        familyName
     };
 };

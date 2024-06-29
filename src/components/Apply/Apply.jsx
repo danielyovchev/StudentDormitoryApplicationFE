@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import styles from './Apply.module.css';
@@ -9,6 +9,39 @@ export default function Apply() {
     const { studentData, setStudentData, setFormStatus, studentNumber } = useContext(StudentContext);
     const [errors, setErrors] = useState({});
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchStudentData = async () => {
+            try {
+                const token = sessionStorage.getItem('token');
+                if (!token) {
+                    console.error('User is not authenticated');
+                    return;
+                }
+                const response = await fetch(`${API_BASE_URL}/get/student/${studentNumber}/data`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data) {
+                        setStudentData(data);
+                    }
+                } else {
+                    console.error('Failed to fetch student data');
+                }
+            } catch (error) {
+                console.error('Error fetching student data:', error);
+            }
+        };
+
+        if (studentNumber) {
+            fetchStudentData();
+        }
+    }, [studentNumber, setStudentData]);
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
@@ -46,7 +79,7 @@ export default function Apply() {
         }
 
         const payload = {
-            name: studentData.name,
+            name: `${studentData.givenName} ${studentData.familyName}`,
             educationForm: studentData.educationForm.toUpperCase(),
             faculty: studentData.faculty.toUpperCase(),
             specialty: studentData.specialty.toUpperCase(),
@@ -56,13 +89,14 @@ export default function Apply() {
             streetNumber: parseInt(studentData.streetNumber, 10),
             entrance: parseInt(studentData.entrance, 10),
             apartment: parseInt(studentData.apartment, 10),
-            personalNumber: studentData.personalID,
+            personalId: studentData.personalID,
             phoneNumber: studentData.phoneNumber,
             grade: parseFloat(studentData.grade),
             dormitoryNumber: parseInt(studentData.buildingNumber, 10),
             roomNumber: parseInt(studentData.roomNumber, 10),
             sex: studentData.sex,
-            studentNumber: studentNumber // Use the studentNumber from context
+            studentNumber: studentNumber,
+            examsToRetake: parseInt(studentData.examsToRetake)
         };
 
         try {
