@@ -24,8 +24,9 @@ const StudentProvider = ({ children }) => {
         grade: '',
         yearOfStudy: 'first',
         preserveRoom: false,
-        givenName: '',
-        familyName: ''
+        givenName: givenName || '',
+        familyName: familyName || '',
+        examsToRetake: 0
     });
 
     const [formStatus, setFormStatus] = useState({
@@ -44,7 +45,7 @@ const StudentProvider = ({ children }) => {
         } else if (initialized && !studentNumber && isAuthenticated && isStudent) {
             toast.error('Student number not found in Keycloak token.');
         }
-    }, [initialized, studentNumber, givenName, familyName]);
+    }, [initialized, studentNumber, givenName, familyName, isAuthenticated, isStudent]);
 
     return (
         <StudentContext.Provider value={{ studentData, setStudentData, studentNumber, formStatus, setFormStatus }}>

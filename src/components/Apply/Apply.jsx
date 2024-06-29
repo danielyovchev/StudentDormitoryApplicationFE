@@ -28,7 +28,10 @@ export default function Apply() {
                 if (response.ok) {
                     const data = await response.json();
                     if (data) {
-                        setStudentData(data);
+                        setStudentData(prevData => ({
+                            ...prevData,
+                            ...data
+                        }));
                     }
                 } else {
                     console.error('Failed to fetch student data');
@@ -96,7 +99,7 @@ export default function Apply() {
             roomNumber: parseInt(studentData.roomNumber, 10),
             sex: studentData.sex,
             studentNumber: studentNumber,
-            examsToRetake: parseInt(studentData.examsToRetake)
+            examsToRetake: parseInt(studentData.examsToRetake, 10)
         };
 
         try {
@@ -134,7 +137,7 @@ export default function Apply() {
                 <h2>Student Application Form</h2>
                 <label>
                     Year of Study:
-                    <select name="yearOfStudy" value={studentData.yearOfStudy} onChange={handleChange}>
+                    <select name="yearOfStudy" value={studentData.yearOfStudy || ''} onChange={handleChange}>
                         <option value="first">First Year</option>
                         <option value="second">Second Year and Above</option>
                     </select>
@@ -147,7 +150,7 @@ export default function Apply() {
                             <input
                                 type="checkbox"
                                 name="preserveRoom"
-                                checked={studentData.preserveRoom}
+                                checked={studentData.preserveRoom || false}
                                 onChange={handleChange}
                             />
                         </label>
@@ -156,7 +159,7 @@ export default function Apply() {
                             <input
                                 type="number"
                                 name="examsToRetake"
-                                value={studentData.examsToRetake}
+                                value={studentData.examsToRetake || ''}
                                 onChange={handleChange}
                                 min="0"
                             />
@@ -165,7 +168,7 @@ export default function Apply() {
                 )}
                 <label>
                     Form of Education:
-                    <select name="educationForm" value={studentData.educationForm} onChange={handleChange}>
+                    <select name="educationForm" value={studentData.educationForm || ''} onChange={handleChange}>
                         <option value="REGULAR">Regular</option>
                         <option value="SHORTENED">Shortened</option>
                     </select>
@@ -173,7 +176,7 @@ export default function Apply() {
                 </label>
                 <label>
                     Faculty:
-                    <select name="faculty" value={studentData.faculty} onChange={handleChange}>
+                    <select name="faculty" value={studentData.faculty || ''} onChange={handleChange}>
                         <option value="FITA">FITA</option>
                         <option value="SHIPMENT">Shipment</option>
                         <option value="ELECTRICAL">Electrical</option>
@@ -183,7 +186,7 @@ export default function Apply() {
                 </label>
                 <label>
                     Specialty:
-                    <select name="specialty" value={studentData.specialty} onChange={handleChange}>
+                    <select name="specialty" value={studentData.specialty || ''} onChange={handleChange}>
                         <option value="SIT">SIT</option>
                         <option value="KST">KST</option>
                         <option value="SS">SS</option>
@@ -192,27 +195,27 @@ export default function Apply() {
                 </label>
                 <label>
                     City:
-                    <input type="text" name="city" value={studentData.city} onChange={handleChange} />
+                    <input type="text" name="city" value={studentData.city || ''} onChange={handleChange} />
                     {errors.city && <span className={styles.error}>{errors.city}</span>}
                 </label>
                 <label>
                     Municipality:
-                    <input type="text" name="municipality" value={studentData.municipality} onChange={handleChange} />
+                    <input type="text" name="municipality" value={studentData.municipality || ''} onChange={handleChange} />
                     {errors.municipality && <span className={styles.error}>{errors.municipality}</span>}
                 </label>
                 <label>
                     Street:
-                    <input type="text" name="street" value={studentData.street} onChange={handleChange} />
+                    <input type="text" name="street" value={studentData.street || ''} onChange={handleChange} />
                     {errors.street && <span className={styles.error}>{errors.street}</span>}
                 </label>
                 <label>
                     Street Number:
-                    <input type="number" name="streetNumber" value={studentData.streetNumber} onChange={handleChange} min="0" />
+                    <input type="number" name="streetNumber" value={studentData.streetNumber || ''} onChange={handleChange} min="0" />
                     {errors.streetNumber && <span className={styles.error}>{errors.streetNumber}</span>}
                 </label>
                 <label>
                     Building Number:
-                    <select name="buildingNumber" value={studentData.buildingNumber} onChange={handleChange}>
+                    <select name="buildingNumber" value={studentData.buildingNumber || ''} onChange={handleChange}>
                         <option value="18">18</option>
                         <option value="20">20</option>
                     </select>
@@ -220,34 +223,39 @@ export default function Apply() {
                 </label>
                 <label>
                     Room Number:
-                    <input type="number" name="roomNumber" value={studentData.roomNumber} onChange={handleChange} min="0" />
+                    <input type="number" name="roomNumber" value={studentData.roomNumber || ''} onChange={handleChange} min="0" />
                 </label>
                 <label>
                     Entrance:
-                    <input type="number" name="entrance" value={studentData.entrance} onChange={handleChange} min="0" />
+                    <input type="number" name="entrance" value={studentData.entrance || ''} onChange={handleChange} min="0" />
                 </label>
                 <label>
                     Apartment:
-                    <input type="number" name="apartment" value={studentData.apartment} onChange={handleChange} min="0" />
+                    <input type="number" name="apartment" value={studentData.apartment || ''} onChange={handleChange} min="0" />
                 </label>
                 <label>
                     Personal Identification Number:
-                    <input type="text" name="personalID" value={studentData.personalID} onChange={handleChange} />
+                    <input type="text" name="personalID" value={studentData.personalID || ''} onChange={handleChange} />
                     {errors.personalID && <span className={styles.error}>{errors.personalID}</span>}
                 </label>
                 <label>
                     Phone Number:
-                    <input type="text" name="phoneNumber" value={studentData.phoneNumber} onChange={handleChange} />
+                    <input type="text" name="phoneNumber" value={studentData.phoneNumber || ''} onChange={handleChange} />
                     {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber}</span>}
                 </label>
                 <label>
                     {studentData.yearOfStudy === 'first' ? "Grade from School:" : "Grade from Last Year:"}
-                    <input type="number" name="grade" value={studentData.grade} onChange={handleChange} step="0.01" min="0" />
+                    <input type="number" name="grade" value={studentData.grade || ''} onChange={handleChange} step="0.01" min="0" />
                     {errors.grade && <span className={styles.error}>{errors.grade}</span>}
                 </label>
                 <label>
                     Sex:
-                    <input type="text" name="sex" value={studentData.sex} onChange={handleChange} />
+                    <select name="sex" value={studentData.sex || ''} onChange={handleChange}>
+                        <option value="">Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
                     {errors.sex && <span className={styles.error}>{errors.sex}</span>}
                 </label>
                 <button type="submit">Submit Application</button>
