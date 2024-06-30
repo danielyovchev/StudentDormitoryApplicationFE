@@ -3,3 +3,11 @@ body {
     font-family: 'Helvetica';
     text-align: justify;
 }
+
+input[type="text"] {
+    margin-left: 0px;
+}
+
+form label {
+    text-align: left;
+}

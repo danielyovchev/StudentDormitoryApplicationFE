@@ -2,15 +2,18 @@ import React, { useState } from 'react';
 import { API_BASE_URL } from '../../utils/routeConstants';
 import { useAuth } from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
-import styles from './FamilyInfo.module.css';
+import styles from './ChildrenForm.module.css';
 
 export default function ChildrenForm({ onAddChild }) {
     const { keycloak } = useAuth();
-    const [child, setChild] = useState({ name: '', birthDate: '' });
+    const [childData, setChildData] = useState({
+        name: '',
+        birthDate: ''
+    });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setChild((prevState) => ({
+        setChildData((prevState) => ({
             ...prevState,
             [name]: value
         }));
@@ -18,42 +21,47 @@ export default function ChildrenForm({ onAddChild }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            console.error('User is not authenticated');
+            return;
+        }
+
         try {
             const response = await fetch(`${API_BASE_URL}/upload/student/child`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${keycloak.token}`
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ ...child, studentNumber: keycloak.tokenParsed.studentNumber })
+                body: JSON.stringify({ ...childData, studentNumber: keycloak.tokenParsed.studentNumber })
             });
 
             if (response.ok) {
-                onAddChild(child);
-                setChild({ name: '', birthDate: '' });
-                toast.success('Child added successfully!');
+                onAddChild(childData);
+                toast.success('Child information submitted successfully!');
             } else {
-                console.error('Failed to add child');
-                toast.error('Failed to add child');
+                const responseData = await response.json();
+                toast.error(responseData.message || 'Child information submission failed');
             }
         } catch (error) {
-            console.error('Error adding child:', error);
-            toast.error('Error adding child');
+            console.error('Error submitting child information:', error);
+            toast.error('Error submitting child information');
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <h3>Add Child</h3>
-            <label>
+            <h3>Child Information</h3>
+            <label className={styles.label}>
                 Name:
-                <input type="text" name="name" value={child.name} onChange={handleChange} required />
+                <input type="text" name="name" value={childData.name} onChange={handleChange} required className={styles.input} />
             </label>
-            <label>
+            <label className={styles.label}>
                 Birth Date:
-                <input type="date" name="birthDate" value={child.birthDate} onChange={handleChange} required />
+                <input type="date" name="birthDate" value={childData.birthDate} onChange={handleChange} required className={styles.input} />
             </label>
-            <button type="submit">Add Child</button>
+            <button type="submit" className={styles.submitButton}>Submit</button>
         </form>
     );
 }

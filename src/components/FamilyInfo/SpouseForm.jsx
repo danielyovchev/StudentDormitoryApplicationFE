@@ -1,25 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { API_BASE_URL } from '../../utils/routeConstants';
 import { useAuth } from '../../hooks/useAuth';
 import { toast } from 'react-toastify';
-import styles from './FamilyInfo.module.css';
+import styles from './SpouseForm.module.css';
 
-export default function SpouseForm({ onAddSpouse }) {
+export default function SpouseForm({ existingSpouse, onSpouseAdded }) {
     const { keycloak } = useAuth();
-    const [spouse, setSpouse] = useState({
+    const [spouseData, setSpouseData] = useState({
         name: '',
         city: '',
-        street: '',
-        streetNumber: '',
-        buildingNumber: '',
-        entrance: '',
-        apartment: '',
+        address: '',
         phoneNumber: ''
     });
 
+    useEffect(() => {
+        if (existingSpouse) {
+            setSpouseData(existingSpouse);
+        }
+    }, [existingSpouse]);
+
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setSpouse((prevState) => ({
+        setSpouseData((prevState) => ({
             ...prevState,
             [name]: value
         }));
@@ -27,75 +29,55 @@ export default function SpouseForm({ onAddSpouse }) {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
+        const token = sessionStorage.getItem('token');
+        if (!token) {
+            console.error('User is not authenticated');
+            return;
+        }
+
         try {
             const response = await fetch(`${API_BASE_URL}/upload/student/spouse`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${keycloak.token}`
+                    'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ ...spouse, studentNumber: keycloak.tokenParsed.studentNumber })
+                body: JSON.stringify({ ...spouseData, studentNumber: keycloak.tokenParsed.studentNumber })
             });
 
             if (response.ok) {
-                onAddSpouse(spouse);
-                setSpouse({
-                    name: '',
-                    city: '',
-                    street: '',
-                    streetNumber: '',
-                    buildingNumber: '',
-                    entrance: '',
-                    apartment: '',
-                    phoneNumber: ''
-                });
-                toast.success('Spouse added successfully!');
+                onSpouseAdded(spouseData);
+                toast.success('Spouse information submitted successfully!');
             } else {
-                console.error('Failed to add spouse');
-                toast.error('Failed to add spouse');
+                const responseData = await response.json();
+                toast.error(responseData.message || 'Spouse information submission failed');
             }
         } catch (error) {
-            console.error('Error adding spouse:', error);
-            toast.error('Error adding spouse');
+            console.error('Error submitting spouse information:', error);
+            toast.error('Error submitting spouse information');
         }
     };
 
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <h3>Add Spouse</h3>
-            <label>
+            <h3>Spouse Information</h3>
+            <label className={styles.label}>
                 Name:
-                <input type="text" name="name" value={spouse.name} onChange={handleChange} required />
+                <input type="text" name="name" value={spouseData.name} onChange={handleChange} required className={styles.input} />
             </label>
-            <label>
+            <label className={styles.label}>
                 City:
-                <input type="text" name="city" value={spouse.city} onChange={handleChange} required />
+                <input type="text" name="city" value={spouseData.city} onChange={handleChange} required className={styles.input} />
             </label>
-            <label>
-                Street:
-                <input type="text" name="street" value={spouse.street} onChange={handleChange} required />
+            <label className={styles.label}>
+                Address:
+                <input type="text" name="address" value={spouseData.address} onChange={handleChange} required className={styles.input} />
             </label>
-            <label>
-                Street Number:
-                <input type="number" name="streetNumber" value={spouse.streetNumber} onChange={handleChange} required />
-            </label>
-            <label>
-                Building Number:
-                <input type="number" name="buildingNumber" value={spouse.buildingNumber} />
-            </label>
-            <label>
-                Entrance:
-                <input type="number" name="entrance" value={spouse.entrance} />
-            </label>
-            <label>
-                Apartment:
-                <input type="number" name="apartment" value={spouse.apartment} />
-            </label>
-            <label>
+            <label className={styles.label}>
                 Phone Number:
-                <input type="text" name="phoneNumber" value={spouse.phoneNumber} onChange={handleChange} required />
+                <input type="text" name="phoneNumber" value={spouseData.phoneNumber} onChange={handleChange} required className={styles.input} />
             </label>
-            <button type="submit">Add Spouse</button>
+            <button type="submit" className={styles.submitButton}>Submit</button>
         </form>
     );
 }
