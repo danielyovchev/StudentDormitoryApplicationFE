@@ -4,6 +4,7 @@ import styles from './ApplicationDashboard.module.css';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 import { StudentContext } from '../../contexts/StudentContext';
 import { useAuth } from '../../hooks/useAuth';
+import RankingInfo from '../RankingInfo/RankingInfo'; // Ensure this import is correct
 
 export default function ApplicationDashboard() {
     const { studentData, formStatus, setFormStatus, studentNumber } = useContext(StudentContext);
@@ -13,15 +14,16 @@ export default function ApplicationDashboard() {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
     const [documents, setDocuments] = useState([]);
+    const [rankingData, setRankingData] = useState(null); // State for ranking data
 
     useEffect(() => {
         if (studentNumber && keycloak.token) {
-            fetchStudentData();
+            checkExistingApplication();
             fetchStudentDocuments();
         }
     }, [studentNumber, keycloak.token]);
 
-    const fetchStudentData = async () => {
+    const checkExistingApplication = async () => {
         try {
             const response = await fetch(`${API_BASE_URL}/apply/get/${studentNumber}`, {
                 method: 'GET',
@@ -32,16 +34,21 @@ export default function ApplicationDashboard() {
 
             if (response.ok) {
                 const data = await response.json();
+                console.log('Application data:', data); // Debug log
                 if (data && data.applicationDTO) {
                     setApplicationData(data.applicationDTO);
+                    if (data.applicationDTO.status === "SUCCESSFUL" || data.applicationDTO.status === "PENDING") {
+                        setRankingData(data.applicationDTO);
+                        console.log('Ranking data set:', data.applicationDTO); // Debug log
+                    }
                 } else {
                     setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
                 }
             } else {
-                console.error('Failed to fetch student data');
+                console.error('Failed to fetch application data');
             }
         } catch (error) {
-            console.error('Error fetching student data:', error);
+            console.error('Error fetching application data:', error);
         }
     };
 
@@ -56,7 +63,7 @@ export default function ApplicationDashboard() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Documents fetched:', data); // Log the fetched data
+                console.log('Documents fetched:', data); // Debug log
                 if (data && Array.isArray(data.documents)) {
                     setDocuments(data.documents);
                 } else {
@@ -67,6 +74,29 @@ export default function ApplicationDashboard() {
             }
         } catch (error) {
             console.error('Error fetching student documents:', error);
+        }
+    };
+
+    const handleSubmitApplication = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/apply`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${keycloak.token}`
+                },
+                body: JSON.stringify({ studentNumber })
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Application submission response:', data); // Debug log
+                checkExistingApplication(); // Re-check the application status
+            } else {
+                console.error('Failed to submit application');
+            }
+        } catch (error) {
+            console.error('Error submitting application:', error);
         }
     };
 
@@ -121,6 +151,10 @@ export default function ApplicationDashboard() {
         setShowUpload(true);
     };
 
+    if (applicationData) {
+        return <RankingInfo rankingData={applicationData} />;
+    }
+
     return (
         <>
             <div className={styles.overviewContainer}>
@@ -172,7 +206,7 @@ export default function ApplicationDashboard() {
                     ))}
                 </ul>
                 {(!formStatus.studentForm || !formStatus.familyForm) && (
-                    <Link to="/submit-application" className={styles.submitButton}>Review and Submit Application</Link>
+                    <Link to="/submit-application" className={styles.submitButton} onClick={handleSubmitApplication}>Review and Submit Application</Link>
                 )}
             </div>
         </>
