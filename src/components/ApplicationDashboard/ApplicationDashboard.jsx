@@ -4,7 +4,7 @@ import styles from './ApplicationDashboard.module.css';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 import { StudentContext } from '../../contexts/StudentContext';
 import { useAuth } from '../../hooks/useAuth';
-import RankingInfo from '../RankingInfo/RankingInfo'; // Ensure this import is correct
+import RankingInfo from '../RankingInfo/RankingInfo';
 
 export default function ApplicationDashboard() {
     const { studentData, formStatus, setFormStatus, studentNumber } = useContext(StudentContext);
@@ -14,14 +14,36 @@ export default function ApplicationDashboard() {
     const [selectedCategory, setSelectedCategory] = useState('');
     const [showUpload, setShowUpload] = useState(false);
     const [documents, setDocuments] = useState([]);
-    const [rankingData, setRankingData] = useState(null); // State for ranking data
+    const [rankingData, setRankingData] = useState(null);
 
     useEffect(() => {
         if (studentNumber && keycloak.token) {
-            checkExistingApplication();
+            fetchStudentData();
             fetchStudentDocuments();
         }
     }, [studentNumber, keycloak.token]);
+
+    const fetchStudentData = async () => {
+        try {
+            const response = await fetch(`${API_BASE_URL}/get/student/${studentNumber}/data`, {
+                method: 'GET',
+                headers: {
+                    'Authorization': `Bearer ${keycloak.token}`
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                if (data) {
+                    setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
+                }
+            } else {
+                console.error('Failed to fetch student data');
+            }
+        } catch (error) {
+            console.error('Error fetching student data:', error);
+        }
+    };
 
     const checkExistingApplication = async () => {
         try {
@@ -34,15 +56,11 @@ export default function ApplicationDashboard() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Application data:', data); // Debug log
                 if (data && data.applicationDTO) {
                     setApplicationData(data.applicationDTO);
                     if (data.applicationDTO.status === "SUCCESSFUL" || data.applicationDTO.status === "PENDING") {
                         setRankingData(data.applicationDTO);
-                        console.log('Ranking data set:', data.applicationDTO); // Debug log
                     }
-                } else {
-                    setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
                 }
             } else {
                 console.error('Failed to fetch application data');
@@ -63,7 +81,6 @@ export default function ApplicationDashboard() {
 
             if (response.ok) {
                 const data = await response.json();
-                console.log('Documents fetched:', data); // Debug log
                 if (data && Array.isArray(data.documents)) {
                     setDocuments(data.documents);
                 } else {
@@ -89,9 +106,7 @@ export default function ApplicationDashboard() {
             });
 
             if (response.ok) {
-                const data = await response.json();
-                console.log('Application submission response:', data); // Debug log
-                checkExistingApplication(); // Re-check the application status
+                checkExistingApplication();
             } else {
                 console.error('Failed to submit application');
             }
@@ -131,7 +146,7 @@ export default function ApplicationDashboard() {
                     setUploads(prev => ({ ...prev, [selectedCategory]: file.name }));
                     setShowUpload(false);
                     setSelectedCategory('');
-                    fetchStudentDocuments(); // Refresh the documents list after upload
+                    fetchStudentDocuments();
                 } else {
                     console.error('File upload failed');
                 }
@@ -151,8 +166,8 @@ export default function ApplicationDashboard() {
         setShowUpload(true);
     };
 
-    if (applicationData) {
-        return <RankingInfo rankingData={applicationData} />;
+    if (rankingData) {
+        return <RankingInfo rankingData={rankingData} />;
     }
 
     return (
@@ -206,7 +221,7 @@ export default function ApplicationDashboard() {
                     ))}
                 </ul>
                 {(!formStatus.studentForm || !formStatus.familyForm) && (
-                    <Link to="/submit-application" className={styles.submitButton} onClick={handleSubmitApplication}>Review and Submit Application</Link>
+                    <button onClick={handleSubmitApplication} className={styles.submitButton}>Review and Submit Application</button>
                 )}
             </div>
         </>

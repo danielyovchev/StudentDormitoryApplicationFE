@@ -217,7 +217,7 @@ export default function Apply() {
                     Building Number:
                     <select name="buildingNumber" value={studentData.buildingNumber || ''} onChange={handleChange}>
                         <option value="18">18</option>
-                        <option value="20">20</option>
+                        <option value="13">13</option>
                     </select>
                     {errors.buildingNumber && <span className={styles.error}>{errors.buildingNumber}</span>}
                 </label>
