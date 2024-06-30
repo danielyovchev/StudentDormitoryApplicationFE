@@ -1,44 +1,59 @@
-import { useContext, useState } from 'react';
-import { FamilyContext } from '../../contexts/FamilyContext';
-import styles from './ChildrenForm.module.css';
+import React, { useState } from 'react';
+import { API_BASE_URL } from '../../utils/routeConstants';
+import { useAuth } from '../../hooks/useAuth';
+import { toast } from 'react-toastify';
+import styles from './FamilyInfo.module.css';
 
-export default function ChildrenForm() {
-    const { familyData, setFamilyData } = useContext(FamilyContext);
-    const [child, setChild] = useState({ name: '', age: '' });
+export default function ChildrenForm({ onAddChild }) {
+    const { keycloak } = useAuth();
+    const [child, setChild] = useState({ name: '', birthDate: '' });
 
     const handleChange = (event) => {
         const { name, value } = event.target;
-        setChild(prevState => ({
+        setChild((prevState) => ({
             ...prevState,
             [name]: value
         }));
     };
 
-    const handleAddChild = () => {
-        setFamilyData(prevState => ({
-            ...prevState,
-            children: [...prevState.children, child]
-        }));
-        setChild({ name: '', age: '' });
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch(`${API_BASE_URL}/upload/student/child`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${keycloak.token}`
+                },
+                body: JSON.stringify({ ...child, studentNumber: keycloak.tokenParsed.studentNumber })
+            });
+
+            if (response.ok) {
+                onAddChild(child);
+                setChild({ name: '', birthDate: '' });
+                toast.success('Child added successfully!');
+            } else {
+                console.error('Failed to add child');
+                toast.error('Failed to add child');
+            }
+        } catch (error) {
+            console.error('Error adding child:', error);
+            toast.error('Error adding child');
+        }
     };
 
     return (
-        <div className={styles.childrenForm}>
-            <h3>Children</h3>
+        <form onSubmit={handleSubmit} className={styles.form}>
+            <h3>Add Child</h3>
             <label>
                 Name:
-                <input type="text" name="name" value={child.name} onChange={handleChange} />
+                <input type="text" name="name" value={child.name} onChange={handleChange} required />
             </label>
             <label>
-                Age:
-                <input type="number" name="age" value={child.age} onChange={handleChange} />
+                Birth Date:
+                <input type="date" name="birthDate" value={child.birthDate} onChange={handleChange} required />
             </label>
-            <button type="button" onClick={handleAddChild}>Add Child</button>
-            <ul>
-                {familyData.children.map((c, index) => (
-                    <li key={index}>{c.name} - {c.age} years old</li>
-                ))}
-            </ul>
-        </div>
+            <button type="submit">Add Child</button>
+        </form>
     );
 }

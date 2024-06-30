@@ -1,32 +1,53 @@
 .familyFormContainer {
-    width: 100%;
     max-width: 800px;
     margin: 0 auto;
     padding: 20px;
     background-color: #f9f9f9;
+    border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-.familyFormContainer h2 {
-    text-align: center;
-    color: #333;
+.form {
+    display: flex;
+    flex-direction: column;
     margin-bottom: 20px;
 }
 
-.familyFormContainer button {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: #4caf50;
+.form label {
+    margin-bottom: 10px;
+}
+
+.form input,
+.form select {
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.form button {
+    align-self: flex-start;
+    padding: 10px 20px;
+    background-color: #007bff;
     color: white;
     border: none;
     border-radius: 4px;
-    font-size: 16px;
     cursor: pointer;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 
-.familyFormContainer button:hover {
-    background-color: #45a049;
+.form button:hover {
+    background-color: #0056b3;
+}
+
+.infoContainer {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #e9ecef;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+}
+
+.infoContainer h3 {
+    margin-top: 0;
 }
