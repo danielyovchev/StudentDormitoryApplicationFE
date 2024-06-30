@@ -12,10 +12,17 @@ export default function SpouseForm({ existingSpouse, onSpouseAdded }) {
         address: '',
         phoneNumber: ''
     });
+    const [isEditing, setIsEditing] = useState(true);
 
     useEffect(() => {
         if (existingSpouse) {
-            setSpouseData(existingSpouse);
+            setSpouseData({
+                name: existingSpouse.name || '',
+                city: existingSpouse.city || '',
+                address: existingSpouse.address || '',
+                phoneNumber: existingSpouse.phoneNumber || ''
+            });
+            setIsEditing(false);
         }
     }, [existingSpouse]);
 
@@ -42,12 +49,16 @@ export default function SpouseForm({ existingSpouse, onSpouseAdded }) {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify({ ...spouseData, studentNumber: keycloak.tokenParsed.studentNumber })
+                body: JSON.stringify({
+                    ...spouseData,
+                    studentNumber: keycloak.tokenParsed.studentNumber
+                })
             });
 
             if (response.ok) {
                 onSpouseAdded(spouseData);
                 toast.success('Spouse information submitted successfully!');
+                setIsEditing(false);
             } else {
                 const responseData = await response.json();
                 toast.error(responseData.message || 'Spouse information submission failed');
@@ -58,26 +69,66 @@ export default function SpouseForm({ existingSpouse, onSpouseAdded }) {
         }
     };
 
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
             <h3>Spouse Information</h3>
             <label className={styles.label}>
                 Name:
-                <input type="text" name="name" value={spouseData.name} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="name"
+                    value={spouseData.name}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
             <label className={styles.label}>
                 City:
-                <input type="text" name="city" value={spouseData.city} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="city"
+                    value={spouseData.city}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
             <label className={styles.label}>
                 Address:
-                <input type="text" name="address" value={spouseData.address} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="address"
+                    value={spouseData.address}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
             <label className={styles.label}>
                 Phone Number:
-                <input type="text" name="phoneNumber" value={spouseData.phoneNumber} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="phoneNumber"
+                    value={spouseData.phoneNumber}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
-            <button type="submit" className={styles.submitButton}>Submit</button>
+            {!isEditing ? (
+                <button type="button" onClick={handleEdit} className={styles.editButton}>Edit</button>
+            ) : (
+                <button type="submit" className={styles.submitButton}>Submit</button>
+            )}
         </form>
     );
 }

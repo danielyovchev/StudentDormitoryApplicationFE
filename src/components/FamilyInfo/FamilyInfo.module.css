@@ -1,53 +1,53 @@
-.familyFormContainer {
-    max-width: 800px;
-    margin: 0 auto;
+.familyInfoContainer {
     padding: 20px;
     background-color: #f9f9f9;
-    border: 1px solid #ddd;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.formSection {
+    margin-bottom: 20px;
+    padding: 15px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.dataItem {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #ffffff;
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    width: 80%;
+}
+
+.dataItem p {
+    margin: 0;
+    padding: 5px 0;
 }
 
 .form {
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
 }
 
-.form label {
+.label {
     margin-bottom: 10px;
 }
 
-.form input,
-.form select {
+.input, .checkbox {
     padding: 8px;
     margin-top: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    font-size: 16px;
 }
 
-.form button {
-    align-self: flex-start;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    margin-top: 10px;
+.checkbox {
+    width: auto;
 }
 
-.form button:hover {
+.submitButton:hover, .editButton:hover {
     background-color: #0056b3;
-}
-
-.infoContainer {
-    margin-bottom: 20px;
-    padding: 15px;
-    background-color: #e9ecef;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-}
-
-.infoContainer h3 {
-    margin-top: 0;
 }

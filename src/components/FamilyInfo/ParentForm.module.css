@@ -28,7 +28,7 @@ h3 {
     box-sizing: border-box;
 }
 
-.submitButton {
+.submitButton, .editButton {
     width: 100%;
     padding: 10px;
     background-color: #007bff;
@@ -41,6 +41,6 @@ h3 {
     transition: background-color 0.3s ease;
 }
 
-.submitButton:hover {
+.submitButton:hover, .editButton:hover {
     background-color: #0056b3;
 }

@@ -12,10 +12,19 @@ export default function ParentForm({ parentType, existingParent, onParentAdded }
         address: '',
         phoneNumber: ''
     });
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         if (existingParent) {
-            setParentData(existingParent);
+            setParentData({
+                name: existingParent.name || '',
+                city: existingParent.city || '',
+                address: existingParent.address || '',
+                phoneNumber: existingParent.phoneNumber || ''
+            });
+            setIsEditing(false);
+        } else {
+            setIsEditing(true); // Allow editing if there's no existing parent
         }
     }, [existingParent]);
 
@@ -44,14 +53,15 @@ export default function ParentForm({ parentType, existingParent, onParentAdded }
                 },
                 body: JSON.stringify({
                     ...parentData,
-                    parentType,
-                    studentNumber: keycloak.tokenParsed.studentNumber
+                    studentNumber: keycloak.tokenParsed.studentNumber,
+                    parentType: parentType.toUpperCase()
                 })
             });
 
             if (response.ok) {
                 onParentAdded(parentData);
                 toast.success(`${parentType} information submitted successfully!`);
+                setIsEditing(false);
             } else {
                 const responseData = await response.json();
                 toast.error(responseData.message || `${parentType} information submission failed`);
@@ -62,26 +72,66 @@ export default function ParentForm({ parentType, existingParent, onParentAdded }
         }
     };
 
+    const handleEdit = () => {
+        setIsEditing(true);
+    };
+
     return (
         <form onSubmit={handleSubmit} className={styles.form}>
-            <h3>{parentType === 'FATHER' ? 'Father' : 'Mother'} Information</h3>
+            <h3>{parentType} Information</h3>
             <label className={styles.label}>
                 Name:
-                <input type="text" name="name" value={parentData.name} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="name"
+                    value={parentData.name}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
             <label className={styles.label}>
                 City:
-                <input type="text" name="city" value={parentData.city} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="city"
+                    value={parentData.city}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
             <label className={styles.label}>
                 Address:
-                <input type="text" name="address" value={parentData.address} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="address"
+                    value={parentData.address}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
             <label className={styles.label}>
                 Phone Number:
-                <input type="text" name="phoneNumber" value={parentData.phoneNumber} onChange={handleChange} required className={styles.input} />
+                <input
+                    type="text"
+                    name="phoneNumber"
+                    value={parentData.phoneNumber}
+                    onChange={handleChange}
+                    required
+                    className={styles.input}
+                    disabled={!isEditing}
+                />
             </label>
-            <button type="submit" className={styles.submitButton}>Submit</button>
+            {!isEditing ? (
+                <button type="button" onClick={handleEdit} className={styles.editButton}>Edit</button>
+            ) : (
+                <button type="submit" className={styles.submitButton}>Submit</button>
+            )}
         </form>
     );
 }
