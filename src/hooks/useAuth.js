@@ -15,7 +15,6 @@ export const useAuth = () => {
 
     useEffect(() => {
         if (initialized && keycloak.authenticated) {
-            console.log('Saving token to session storage');
             saveTokenToSession();
 
             // Set interval to check token expiry and refresh if needed
