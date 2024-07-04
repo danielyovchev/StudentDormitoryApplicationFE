@@ -5,10 +5,12 @@ import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 import { StudentContext } from '../../contexts/StudentContext';
 import { useAuth } from '../../hooks/useAuth';
 import RankingInfo from '../RankingInfo/RankingInfo';
+import { useTranslation } from 'react-i18next';
 
 export default function ApplicationDashboard() {
     const { studentData, formStatus, setFormStatus, studentNumber } = useContext(StudentContext);
     const { keycloak } = useAuth();
+    const { t } = useTranslation();
     const [applicationData, setApplicationData] = useState(null);
     const [uploads, setUploads] = useState({});
     const [selectedCategory, setSelectedCategory] = useState('');
@@ -116,12 +118,12 @@ export default function ApplicationDashboard() {
     };
 
     const categories = {
-        PARENTDEATH: "Death of Parent",
-        HOMELESS: "Raised in Homes for Children Deprived of Parental Care",
-        LARGEFAMILY: "Large Families",
-        REDUCEDABILITY: "Reduced Ability to Work",
-        CHILD: "Having Child",
-        FOREIGN: "Foreign Students"
+        PARENTDEATH: t('applicationDashboard.Death of Parent'),
+        HOMELESS: t('applicationDashboard.Raised in Homes for Children Deprived of Parental Care'),
+        LARGEFAMILY: t('applicationDashboard.Large Families'),
+        REDUCEDABILITY: t('applicationDashboard.Reduced Ability to Work'),
+        CHILD: t('applicationDashboard.Having Child'),
+        FOREIGN: t('applicationDashboard.Foreign Students')
     };
 
     const handleFileChange = async (event) => {
@@ -173,33 +175,33 @@ export default function ApplicationDashboard() {
     return (
         <>
             <div className={styles.overviewContainer}>
-                <h2>Application Forms Overview</h2>
+                <h2>{t('applicationDashboard.Application Forms Overview')}</h2>
                 <ul className={styles.formList}>
                     <li>
-                        <strong>Student Application Form: {formStatus.studentForm ? 'Completed' : 'Not Completed'}</strong>
+                        <strong>{t('applicationDashboard.Student Application Form')}: {formStatus.studentForm ? t('applicationDashboard.Completed') : t('applicationDashboard.Not Completed')}</strong>
                         {formStatus.studentForm ? (
-                            <Link to={Paths.APPLY} className={styles.editLink}>Update Student Data</Link>
+                            <Link to={Paths.APPLY} className={styles.editLink}>{t('applicationDashboard.Update Student Data')}</Link>
                         ) : (
-                            <Link to={Paths.APPLY} className={styles.editLink}>Fill Out Form</Link>
+                            <Link to={Paths.APPLY} className={styles.editLink}>{t('applicationDashboard.Fill Out Form')}</Link>
                         )}
                     </li>
                     <li>
-                        <strong>Family Information Form: {formStatus.familyForm ? 'Completed' : 'Not Completed'}</strong>
+                        <strong>{t('applicationDashboard.Family Information Form')}: {formStatus.familyForm ? t('applicationDashboard.Completed') : t('applicationDashboard.Not Completed')}</strong>
                         {!formStatus.familyForm && formStatus.studentForm && (
-                            <Link to={Paths.FAMILY} className={styles.editLink}>Fill Out Form</Link>
+                            <Link to={Paths.FAMILY} className={styles.editLink}>{t('applicationDashboard.Fill Out Form')}</Link>
                         )}
                     </li>
                 </ul>
                 {studentNumber && formStatus.studentForm && (
                     <div className={styles.documentUploads}>
-                        <h3>Upload Required Documents</h3>
+                        <h3>{t('applicationDashboard.Upload Required Documents')}</h3>
                         {Object.entries(uploads).map(([key, value]) => (
-                            <p key={key}>{categories[key]}: {value} (submitted)</p>
+                            <p key={key}>{categories[key]}: {value} {t('applicationDashboard.(submitted)')}</p>
                         ))}
                         {showUpload && (
                             <div>
                                 <select onChange={handleCategoryChange} value={selectedCategory} className={styles.selectCategory}>
-                                    <option value="">Select Category</option>
+                                    <option value="">{t('applicationDashboard.Select Category')}</option>
                                     {Object.keys(categories).map(key => (
                                         !uploads[key] && <option key={key} value={key}>{categories[key]}</option>
                                     ))}
@@ -208,20 +210,20 @@ export default function ApplicationDashboard() {
                             </div>
                         )}
                         {!showUpload && (
-                            <button onClick={handleAddFileClick} className={styles.addButton}>Add File</button>
+                            <button onClick={handleAddFileClick} className={styles.addButton}>{t('applicationDashboard.Add File')}</button>
                         )}
                     </div>
                 )}
-                <h3>Uploaded Documents</h3>
+                <h3>{t('applicationDashboard.Uploaded Documents')}</h3>
                 <ul className={styles.documentList}>
                     {documents.map(document => (
                         <li key={document.fileUrl}>
-                            <a href={document.fileUrl} target="_blank" rel="noopener noreferrer">{document.fileName || "No Name Provided"}</a> - {document.documentType || "No Type Provided"}
+                            <a href={document.fileUrl} target="_blank" rel="noopener noreferrer">{document.fileName || t('applicationDashboard.No Name Provided')}</a> - {document.documentType || t('applicationDashboard.No Type Provided')}
                         </li>
                     ))}
                 </ul>
                 {(!formStatus.studentForm || !formStatus.familyForm) && (
-                    <button onClick={handleSubmitApplication} className={styles.submitButton}>Review and Submit Application</button>
+                    <button onClick={handleSubmitApplication} className={styles.submitButton}>{t('applicationDashboard.Review and Submit Application')}</button>
                 )}
             </div>
         </>

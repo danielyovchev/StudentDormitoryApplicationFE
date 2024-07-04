@@ -3,18 +3,18 @@ import RuleItem from './RuleItem';
 import styles from './RuleModification.module.css';
 import { API_BASE_URL } from '../../utils/routeConstants';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export default function RuleModification() {
     const [rules, setRules] = useState([]);
-
+    const { t } = useTranslation();
     useEffect(() => {
         const fetchRules = async () => {
             const token = sessionStorage.getItem('token');
             if (!token) {
-                console.error('User is not authenticated');
+                toast.error('User is not authenticated');
                 return;
             }
-            console.log('Using token:', token); // Debugging line
 
             try {
                 const response = await fetch(`${API_BASE_URL}/rule/get`, {
@@ -61,7 +61,7 @@ export default function RuleModification() {
         try {
             const token = sessionStorage.getItem('token');
             if (!token) {
-                console.error('User is not authenticated');
+                toast.error('User is not authenticated');
                 return;
             }
 
@@ -88,13 +88,13 @@ export default function RuleModification() {
 
     return (
         <div className={styles.formContainer}>
-            <h2>Adjust Classification Rules</h2>
+            <h2>{t('rules.Adjust Classification Rules')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className={styles.ruleRow}>
-                    <div className={styles.ruleColumn}><strong>Name</strong></div>
-                    <div className={styles.ruleColumn}><strong>Description</strong></div>
-                    <div className={styles.ruleColumn}><strong>Default Score</strong></div>
-                    <div className={styles.ruleColumn}><strong>Active</strong></div>
+                    <div className={styles.ruleColumn}><strong>{t('rules.Name')}</strong></div>
+                    <div className={styles.ruleColumn}><strong>{t('rules.Description')}</strong></div>
+                    <div className={styles.ruleColumn}><strong>{t('rules.Default Score')}</strong></div>
+                    <div className={styles.ruleColumn}><strong>{t('rules.Active')}</strong></div>
                 </div>
                 {rules.map(({ id, name, description, defaultScore, isActive }) => (
                     <RuleItem

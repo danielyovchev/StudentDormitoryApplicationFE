@@ -78,5 +78,58 @@
         "imagesTitle": "Снимки на общежитията",
         "dorm18": "СО блок 18",
         "dorm13": "СО блок 13"
+    },
+    "applicationDashboard": {
+        "Application Forms Overview": "Преглед на формулярите за кандидатстване",
+        "Student Application Form": "Формуляр за кандидатстване за студент",
+        "Completed": "Завършен",
+        "Not Completed": "Незавършен",
+        "Update Student Data": "Актуализиране на данни за студент",
+        "Fill Out Form": "Попълване на формуляр",
+        "Family Information Form": "Формуляр за семейна информация",
+        "Upload Required Documents": "Качване на необходимите документи",
+        "Add File": "Добавяне на файл",
+        "Uploaded Documents": "Качени документи",
+        "No Name Provided": "Без име",
+        "No Type Provided": "Без тип",
+        "Review and Submit Application": "Преглед и подаване на кандидатура",
+        "(submitted)": "(подадено)",
+        "Death of Parent": "Смърт на родител",
+        "Raised in Homes for Children Deprived of Parental Care": "Отгледан в домове за деца лишени от родителска грижа",
+        "Large Families": "Многодетни семейства",
+        "Reduced Ability to Work": "Намалена работоспособност",
+        "Having Child": "Има дете",
+        "Foreign Students": "Чуждестранни студенти",
+        "Select Category": "Изберете категория"
+    },
+    "rules": {
+        "Adjust Classification Rules": "Параметризация на правилата за класиране",
+        "Name": "Име",
+        "Description": "Описание",
+        "Default Score": "Точки",
+        "Active": "Активирано"
+    },
+    "applicationsReview": {
+        "Applications Pending Review": "Заявления, чакащи преглед",
+        "Student Number": "Студентски номер",
+        "Name": "Име",
+        "Status": "Статус",
+        "Application Date": "Дата на заявление",
+        "Actions": "Действия",
+        "View Details": "Вижте детайли",
+        "No applications to review": "Няма заявления за преглед"
+    },
+    "documentsReview": {
+        "documentsReview": "Преглед на документи",
+        "documentId": "Документен идентификатор",
+        "studentName": "Име на студент",
+        "studentNumber": "Студентски номер",
+        "category": "Категория",
+        "file": "Файл",
+        "validate": "Валидиране",
+        "loading": "Зареждане...",
+        "noUnverifiedDocuments": "Няма непотвърдени документи.",
+        "errorFetchingDocuments": "Грешка при извличането на документи",
+        "noFileAvailable": "Няма наличен файл"
     }
 }

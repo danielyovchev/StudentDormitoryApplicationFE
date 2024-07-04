@@ -32,7 +32,6 @@ const initOptions = {
 function App() {
 	return (
 		<ReactKeycloakProvider authClient={keycloak} initOptions={initOptions}>
-
 			<Router>
 				<StudentProvider>
 					<FamilyProvider>
@@ -83,7 +82,6 @@ function App() {
 					</FamilyProvider>
 				</StudentProvider>
 			</Router>
-
 		</ReactKeycloakProvider>
 	)
 }

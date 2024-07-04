@@ -78,5 +78,58 @@
         "imagesTitle": "Images of Dormitories",
         "dorm18": "Dormitory 18",
         "dorm13": "Dormitory 13"
+    },
+    "applicationDashboard": {
+        "Application Forms Overview": "Application Forms Overview",
+        "Student Application Form": "Student Application Form",
+        "Completed": "Completed",
+        "Not Completed": "Not Completed",
+        "Update Student Data": "Update Student Data",
+        "Fill Out Form": "Fill Out Form",
+        "Family Information Form": "Family Information Form",
+        "Upload Required Documents": "Upload Required Documents",
+        "Add File": "Add File",
+        "Uploaded Documents": "Uploaded Documents",
+        "No Name Provided": "No Name Provided",
+        "No Type Provided": "No Type Provided",
+        "Review and Submit Application": "Review and Submit Application",
+        "(submitted)": "(submitted)",
+        "Death of Parent": "Death of Parent",
+        "Raised in Homes for Children Deprived of Parental Care": "Raised in Homes for Children Deprived of Parental Care",
+        "Large Families": "Large Families",
+        "Reduced Ability to Work": "Reduced Ability to Work",
+        "Having Child": "Having Child",
+        "Foreign Students": "Foreign Students",
+        "Select Category": "Select Category"
+    },
+    "rules": {
+        "Adjust Classification Rules": "Adjust Classification Rules",
+        "Name": "Name",
+        "Description": "Description",
+        "Default Score": "Default Score",
+        "Active": "Active"
+    },
+    "applicationsReview": {
+        "Applications Pending Review": "Applications Pending Review",
+        "Student Number": "Student Number",
+        "Name": "Name",
+        "Status": "Status",
+        "Application Date": "Application Date",
+        "Actions": "Actions",
+        "View Details": "View Details",
+        "No applications to review": "No applications to review"
+    },
+    "documentsReview": {
+        "documentsReview": "Documents Review",
+        "documentId": "Document ID",
+        "studentName": "Student Name",
+        "studentNumber": "Student Number",
+        "category": "Category",
+        "file": "File",
+        "validate": "Validate",
+        "loading": "Loading...",
+        "noUnverifiedDocuments": "No unverified documents.",
+        "errorFetchingDocuments": "Error fetching documents",
+        "noFileAvailable": "No file available"
     }
 }

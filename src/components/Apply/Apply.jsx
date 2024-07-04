@@ -62,8 +62,7 @@ export default function Apply() {
         if (!studentData.specialty) newErrors.specialty = 'Specialty is required';
         if (!studentData.city) newErrors.city = 'City is required';
         if (!studentData.municipality) newErrors.municipality = 'Municipality is required';
-        if (!studentData.street) newErrors.street = 'Street is required';
-        if (!studentData.streetNumber && studentData.streetNumber !== 0) newErrors.streetNumber = 'Street Number is required';
+        if (!studentData.address) newErrors.address = 'Address is required';
         if (!studentData.personalID) newErrors.personalID = 'Personal Identification Number is required';
         if (!studentNumber) newErrors.studentNumber = 'Student Number is required';
         if (!studentData.phoneNumber) newErrors.phoneNumber = 'Phone Number is required';
@@ -88,10 +87,7 @@ export default function Apply() {
             specialty: studentData.specialty.toUpperCase(),
             city: studentData.city,
             municipality: studentData.municipality,
-            street: studentData.street,
-            streetNumber: parseInt(studentData.streetNumber, 10),
-            entrance: parseInt(studentData.entrance, 10),
-            apartment: parseInt(studentData.apartment, 10),
+            address: studentData.address,
             personalId: studentData.personalID,
             phoneNumber: studentData.phoneNumber,
             grade: parseFloat(studentData.grade),
@@ -204,14 +200,9 @@ export default function Apply() {
                     {errors.municipality && <span className={styles.error}>{errors.municipality}</span>}
                 </label>
                 <label>
-                    Street:
-                    <input type="text" name="street" value={studentData.street || ''} onChange={handleChange} />
-                    {errors.street && <span className={styles.error}>{errors.street}</span>}
-                </label>
-                <label>
-                    Street Number:
-                    <input type="number" name="streetNumber" value={studentData.streetNumber || ''} onChange={handleChange} min="0" />
-                    {errors.streetNumber && <span className={styles.error}>{errors.streetNumber}</span>}
+                    Address:
+                    <input type="text" name="address" value={studentData.address || ''} onChange={handleChange} />
+                    {errors.address && <span className={styles.error}>{errors.address}</span>}
                 </label>
                 <label>
                     Building Number:
@@ -224,14 +215,6 @@ export default function Apply() {
                 <label>
                     Room Number:
                     <input type="number" name="roomNumber" value={studentData.roomNumber || ''} onChange={handleChange} min="0" />
-                </label>
-                <label>
-                    Entrance:
-                    <input type="number" name="entrance" value={studentData.entrance || ''} onChange={handleChange} min="0" />
-                </label>
-                <label>
-                    Apartment:
-                    <input type="number" name="apartment" value={studentData.apartment || ''} onChange={handleChange} min="0" />
                 </label>
                 <label>
                     Personal Identification Number:

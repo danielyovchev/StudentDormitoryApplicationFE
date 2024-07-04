@@ -54,7 +54,7 @@
     background-color: #ff9800;
     color: white;
     border: none;
-    padding: 8px 16px;
+    /* padding: 8px 8px; */
     border-radius: 5px;
     cursor: pointer;
     text-decoration: none;
@@ -65,4 +65,9 @@
 .languageToggleButton:hover {
     background-color: #e68900;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.flagImage {
+    width: 30px;
+    height: 12px;
 }

@@ -4,9 +4,11 @@ import styles from './DocumentsReview.module.css';
 import { useAuth } from '../../../hooks/useAuth';
 import { useLocation } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export default function DocumentsReview() {
     const { keycloak } = useAuth();
+    const { t } = useTranslation();
     const [documents, setDocuments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -37,13 +39,13 @@ export default function DocumentsReview() {
                 setLoading(false);
             } catch (error) {
                 console.error('Error fetching documents:', error);
-                setError('Error fetching documents');
+                setError(t('documentsReview.errorFetchingDocuments'));
                 setLoading(false);
             }
         };
 
         fetchDocuments();
-    }, [keycloak.token, studentNumber]);
+    }, [keycloak.token, studentNumber, t]);
 
     const handleValidate = async (documentId) => {
         try {
@@ -69,7 +71,7 @@ export default function DocumentsReview() {
 
     const renderFile = (fileUrl, fileName) => {
         if (!fileUrl || !fileName) {
-            return <p>No file available</p>;
+            return <p>{t('documentsReview.noFileAvailable')}</p>;
         }
 
         const fileType = fileName.split('.').pop().toLowerCase();
@@ -84,7 +86,7 @@ export default function DocumentsReview() {
     };
 
     if (loading) {
-        return <div>Loading...</div>;
+        return <div>{t('documentsReview.loading')}</div>;
     }
 
     if (error) {
@@ -93,22 +95,22 @@ export default function DocumentsReview() {
 
     return (
         <div className={styles.container}>
-            <h2>Documents Review</h2>
+            <h2>{t('documentsReview.documentsReview')}</h2>
             {documents.length === 0 ? (
-                <div>No unverified documents.</div>
+                <div>{t('documentsReview.noUnverifiedDocuments')}</div>
             ) : (
                 <ul className={styles.documentList}>
                     {documents.map(document => (
                         <li key={document.id} className={styles.documentItem}>
                             <div className={styles.documentInfo}>
-                                <p><strong>Document ID:</strong> {document.id}</p>
-                                <p><strong>Student Name:</strong> {document.studentName || 'N/A'}</p>
-                                <p><strong>Student Number:</strong> {document.studentNumber || 'N/A'}</p>
-                                <p><strong>Category:</strong> {document.documentType || 'N/A'}</p>
-                                <p><strong>File:</strong></p>
+                                <p><strong>{t('documentsReview.documentId')}:</strong> {document.id}</p>
+                                <p><strong>{t('documentsReview.studentName')}:</strong> {document.studentName || 'N/A'}</p>
+                                <p><strong>{t('documentsReview.studentNumber')}:</strong> {document.studentNumber || 'N/A'}</p>
+                                <p><strong>{t('documentsReview.category')}:</strong> {document.documentType || 'N/A'}</p>
+                                <p><strong>{t('documentsReview.file')}:</strong></p>
                                 {renderFile(document.fileUrl, document.fileName)}
                             </div>
-                            <button onClick={() => handleValidate(document.id)} className={styles.validateButton}>Validate</button>
+                            <button onClick={() => handleValidate(document.id)} className={styles.validateButton}>{t('documentsReview.validate')}</button>
                         </li>
                     ))}
                 </ul>

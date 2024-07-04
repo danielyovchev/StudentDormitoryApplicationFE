@@ -1,9 +1,11 @@
 import React from 'react';
-import { Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import styles from './Header.module.css';
 import { Paths } from '../../utils/routeConstants';
 import { useAuth } from '../../hooks/useAuth';
 import { useTranslation } from 'react-i18next';
+import bgFlag from '../../assets/flags/bg.svg';
+import enFlag from '../../assets/flags/en.svg';
 
 export default function Header() {
     const { isAuthenticated, login, logout, register, isAdmin, isStudent } = useAuth();
@@ -48,7 +50,11 @@ export default function Header() {
                     </>
                 )}
                 <button onClick={toggleLanguage} className={styles.navLinkSpecial}>
-                    {i18n.language === 'bg' ? 'EN' : 'BG'}
+                    <img
+                        src={i18n.language === 'bg' ? enFlag : bgFlag}
+                        alt={i18n.language === 'bg' ? 'English' : 'Bulgarian'}
+                        className={styles.flagImage}
+                    />
                 </button>
             </div>
         </nav>
