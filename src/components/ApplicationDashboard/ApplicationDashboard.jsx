@@ -6,6 +6,7 @@ import { StudentContext } from '../../contexts/StudentContext';
 import { useAuth } from '../../hooks/useAuth';
 import RankingInfo from '../RankingInfo/RankingInfo';
 import { useTranslation } from 'react-i18next';
+import { toast } from 'react-toastify';
 
 export default function ApplicationDashboard() {
     const { studentData, formStatus, setFormStatus, studentNumber } = useContext(StudentContext);
@@ -22,6 +23,7 @@ export default function ApplicationDashboard() {
         if (studentNumber && keycloak.token) {
             fetchStudentData();
             fetchStudentDocuments();
+            checkExistingApplication(); // Fetch the application data on component mount
         }
     }, [studentNumber, keycloak.token]);
 
@@ -60,8 +62,9 @@ export default function ApplicationDashboard() {
                 const data = await response.json();
                 if (data && data.applicationDTO) {
                     setApplicationData(data.applicationDTO);
-                    if (data.applicationDTO.status === "SUCCESSFUL" || data.applicationDTO.status === "PENDING") {
-                        setRankingData(data.applicationDTO);
+                    setRankingData(data.applicationDTO);
+                    if (data.applicationDTO.status === "REJECTED") {
+                        toast.error("Application rejected");
                     }
                 }
             } else {

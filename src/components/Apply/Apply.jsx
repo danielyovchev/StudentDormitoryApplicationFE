@@ -8,7 +8,29 @@ import { API_BASE_URL, Paths } from '../../utils/routeConstants';
 export default function Apply() {
     const { studentData, setStudentData, setFormStatus, studentNumber } = useContext(StudentContext);
     const [errors, setErrors] = useState({});
+    const [rooms, setRooms] = useState({});
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchRoomsData = async () => {
+            try {
+                const response = await fetch(`${API_BASE_URL}/rooms`, {
+                    method: 'GET'
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setRooms(data.rooms);
+                } else {
+                    console.error('Failed to fetch rooms data');
+                }
+            } catch (error) {
+                console.error('Error fetching rooms data:', error);
+            }
+        };
+
+        fetchRoomsData();
+    }, []);
 
     useEffect(() => {
         const fetchStudentData = async () => {
@@ -207,14 +229,24 @@ export default function Apply() {
                 <label>
                     Building Number:
                     <select name="buildingNumber" value={studentData.buildingNumber || ''} onChange={handleChange}>
-                        <option value="18">18</option>
-                        <option value="13">13</option>
+                        {Object.keys(rooms).map(dormitoryId => (
+                            <option key={dormitoryId} value={dormitoryId}>
+                                {dormitoryId}
+                            </option>
+                        ))}
                     </select>
                     {errors.buildingNumber && <span className={styles.error}>{errors.buildingNumber}</span>}
                 </label>
                 <label>
                     Room Number:
-                    <input type="number" name="roomNumber" value={studentData.roomNumber || ''} onChange={handleChange} min="0" />
+                    <select name="roomNumber" value={studentData.roomNumber || ''} onChange={handleChange}>
+                        {(rooms[studentData.buildingNumber] || []).map(roomNumber => (
+                            <option key={roomNumber} value={roomNumber}>
+                                {roomNumber}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.roomNumber && <span className={styles.error}>{errors.roomNumber}</span>}
                 </label>
                 <label>
                     Personal Identification Number:

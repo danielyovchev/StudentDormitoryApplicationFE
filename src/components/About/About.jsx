@@ -56,7 +56,6 @@ export default function About() {
                     {images.map(({ src, path }) => (
                         <div key={path}>
                             <img src={src} alt={imageDescriptions[path.split('/').pop()] || t('about.dormImage')} className={styles.carouselImage} />
-                            {/* <p className={styles.legend}>{imageDescriptions[path.split('/').pop()] || t('about.dormImage')}</p> */}
                         </div>
                     ))}
                 </Slider>
