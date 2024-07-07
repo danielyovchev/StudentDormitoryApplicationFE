@@ -4,12 +4,14 @@ import { toast } from 'react-toastify';
 import styles from './Apply.module.css';
 import { StudentContext } from '../../contexts/StudentContext';
 import { API_BASE_URL, Paths } from '../../utils/routeConstants';
+import { useTranslation } from 'react-i18next';
 
 export default function Apply() {
     const { studentData, setStudentData, setFormStatus, studentNumber } = useContext(StudentContext);
     const [errors, setErrors] = useState({});
     const [rooms, setRooms] = useState({});
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     useEffect(() => {
         const fetchRoomsData = async () => {
@@ -78,19 +80,19 @@ export default function Apply() {
 
     const validateForm = () => {
         const newErrors = {};
-        if (!studentData.yearOfStudy) newErrors.yearOfStudy = 'Year of Study is required';
-        if (!studentData.educationForm) newErrors.educationForm = 'Form of Education is required';
-        if (!studentData.faculty) newErrors.faculty = 'Faculty is required';
-        if (!studentData.specialty) newErrors.specialty = 'Specialty is required';
-        if (!studentData.city) newErrors.city = 'City is required';
-        if (!studentData.municipality) newErrors.municipality = 'Municipality is required';
-        if (!studentData.address) newErrors.address = 'Address is required';
-        if (!studentData.personalID) newErrors.personalID = 'Personal Identification Number is required';
-        if (!studentNumber) newErrors.studentNumber = 'Student Number is required';
-        if (!studentData.phoneNumber) newErrors.phoneNumber = 'Phone Number is required';
-        if (!studentData.grade && studentData.grade !== 0) newErrors.grade = 'Grade is required';
-        if (!studentData.buildingNumber) newErrors.buildingNumber = 'Building Number is required';
-        if (!studentData.sex) newErrors.sex = 'Sex is required';
+        if (!studentData.yearOfStudy) newErrors.yearOfStudy = t('apply.yearOfStudyRequired');
+        if (!studentData.educationForm) newErrors.educationForm = t('apply.educationFormRequired');
+        if (!studentData.faculty) newErrors.faculty = t('apply.facultyRequired');
+        if (!studentData.specialty) newErrors.specialty = t('apply.specialtyRequired');
+        if (!studentData.city) newErrors.city = t('apply.cityRequired');
+        if (!studentData.municipality) newErrors.municipality = t('apply.municipalityRequired');
+        if (!studentData.address) newErrors.address = t('apply.addressRequired');
+        if (!studentData.personalID) newErrors.personalID = t('apply.personalIDRequired');
+        if (!studentNumber) newErrors.studentNumber = t('apply.studentNumberRequired');
+        if (!studentData.phoneNumber) newErrors.phoneNumber = t('apply.phoneNumberRequired');
+        if (!studentData.grade && studentData.grade !== 0) newErrors.grade = t('apply.gradeRequired');
+        if (!studentData.buildingNumber) newErrors.buildingNumber = t('apply.buildingNumberRequired');
+        if (!studentData.sex) newErrors.sex = t('apply.sexRequired');
 
         setErrors(newErrors);
         return Object.keys(newErrors).length === 0;
@@ -138,33 +140,33 @@ export default function Apply() {
             const responseData = await response.json();
             if (response.ok) {
                 setFormStatus(prevStatus => ({ ...prevStatus, studentForm: true }));
-                toast.success(responseData.message || 'Application submitted successfully!');
+                toast.success(responseData.message || t('apply.applicationSubmittedSuccessfully'));
                 navigate(Paths.OVERVIEW);
             } else {
-                toast.error(responseData.message || 'Student data submission failed');
+                toast.error(responseData.message || t('apply.studentDataSubmissionFailed'));
             }
         } catch (error) {
-            console.error('Error submitting student data:', error);
-            toast.error('Error submitting student data');
+            console.error(t('apply.errorSubmittingStudentData'), error);
+            toast.error(t('apply.errorSubmittingStudentData'));
         }
     };
 
     return (
         <div className={styles.formContainer}>
             <form onSubmit={handleSubmit} className={styles.applicationForm}>
-                <h2>Student Application Form</h2>
+                <h2>{t('apply.studentApplicationForm')}</h2>
                 <label>
-                    Year of Study:
+                    {t('apply.yearOfStudy')}:
                     <select name="yearOfStudy" value={studentData.yearOfStudy || ''} onChange={handleChange}>
-                        <option value="first">First Year</option>
-                        <option value="second">Second Year and Above</option>
+                        <option value="first">{t('apply.firstYear')}</option>
+                        <option value="second">{t('apply.secondYearAndAbove')}</option>
                     </select>
                     {errors.yearOfStudy && <span className={styles.error}>{errors.yearOfStudy}</span>}
                 </label>
                 {studentData.yearOfStudy !== 'first' && (
                     <>
                         <label>
-                            Preserve room from last year:
+                            {t('apply.preserveRoom')}:
                             <input
                                 type="checkbox"
                                 name="preserveRoom"
@@ -173,7 +175,7 @@ export default function Apply() {
                             />
                         </label>
                         <label>
-                            Number of exams to retake:
+                            {t('apply.numberOfExamsToRetake')}:
                             <input
                                 type="number"
                                 name="examsToRetake"
@@ -185,49 +187,49 @@ export default function Apply() {
                     </>
                 )}
                 <label>
-                    Form of Education:
+                    {t('apply.formOfEducation')}:
                     <select name="educationForm" value={studentData.educationForm || ''} onChange={handleChange}>
-                        <option value="REGULAR">Regular</option>
-                        <option value="SHORTENED">Shortened</option>
+                        <option value="REGULAR">{t('apply.regular')}</option>
+                        <option value="SHORTENED">{t('apply.shortened')}</option>
                     </select>
                     {errors.educationForm && <span className={styles.error}>{errors.educationForm}</span>}
                 </label>
                 <label>
-                    Faculty:
+                    {t('apply.faculty')}:
                     <select name="faculty" value={studentData.faculty || ''} onChange={handleChange}>
-                        <option value="FITA">FITA</option>
-                        <option value="SHIPMENT">Shipment</option>
-                        <option value="ELECTRICAL">Electrical</option>
-                        <option value="SS">SS</option>
+                        <option value="FITA">{t('apply.fita')}</option>
+                        <option value="SHIPMENT">{t('apply.shipment')}</option>
+                        <option value="ELECTRICAL">{t('apply.electrical')}</option>
+                        <option value="SS">{t('apply.ss')}</option>
                     </select>
                     {errors.faculty && <span className={styles.error}>{errors.faculty}</span>}
                 </label>
                 <label>
-                    Specialty:
+                    {t('apply.specialty')}:
                     <select name="specialty" value={studentData.specialty || ''} onChange={handleChange}>
-                        <option value="SIT">SIT</option>
-                        <option value="KST">KST</option>
-                        <option value="SS">SS</option>
+                        <option value="SIT">{t('apply.sit')}</option>
+                        <option value="KST">{t('apply.kst')}</option>
+                        <option value="SS">{t('apply.ss')}</option>
                     </select>
                     {errors.specialty && <span className={styles.error}>{errors.specialty}</span>}
                 </label>
                 <label>
-                    City:
+                    {t('apply.city')}:
                     <input type="text" name="city" value={studentData.city || ''} onChange={handleChange} />
                     {errors.city && <span className={styles.error}>{errors.city}</span>}
                 </label>
                 <label>
-                    Municipality:
+                    {t('apply.municipality')}:
                     <input type="text" name="municipality" value={studentData.municipality || ''} onChange={handleChange} />
                     {errors.municipality && <span className={styles.error}>{errors.municipality}</span>}
                 </label>
                 <label>
-                    Address:
+                    {t('apply.address')}:
                     <input type="text" name="address" value={studentData.address || ''} onChange={handleChange} />
                     {errors.address && <span className={styles.error}>{errors.address}</span>}
                 </label>
                 <label>
-                    Building Number:
+                    {t('apply.buildingNumber')}:
                     <select name="buildingNumber" value={studentData.buildingNumber || ''} onChange={handleChange}>
                         {Object.keys(rooms).map(dormitoryId => (
                             <option key={dormitoryId} value={dormitoryId}>
@@ -238,7 +240,7 @@ export default function Apply() {
                     {errors.buildingNumber && <span className={styles.error}>{errors.buildingNumber}</span>}
                 </label>
                 <label>
-                    Room Number:
+                    {t('apply.roomNumber')}:
                     <select name="roomNumber" value={studentData.roomNumber || ''} onChange={handleChange}>
                         {(rooms[studentData.buildingNumber] || []).map(roomNumber => (
                             <option key={roomNumber} value={roomNumber}>
@@ -249,31 +251,31 @@ export default function Apply() {
                     {errors.roomNumber && <span className={styles.error}>{errors.roomNumber}</span>}
                 </label>
                 <label>
-                    Personal Identification Number:
+                    {t('apply.personalID')}:
                     <input type="text" name="personalID" value={studentData.personalID || ''} onChange={handleChange} />
                     {errors.personalID && <span className={styles.error}>{errors.personalID}</span>}
                 </label>
                 <label>
-                    Phone Number:
+                    {t('apply.phoneNumber')}:
                     <input type="text" name="phoneNumber" value={studentData.phoneNumber || ''} onChange={handleChange} />
                     {errors.phoneNumber && <span className={styles.error}>{errors.phoneNumber}</span>}
                 </label>
                 <label>
-                    {studentData.yearOfStudy === 'first' ? "Grade from School:" : "Grade from Last Year:"}
+                    {studentData.yearOfStudy === 'first' ? t('apply.gradeFromSchool') : t('apply.gradeFromLastYear')}:
                     <input type="number" name="grade" value={studentData.grade || ''} onChange={handleChange} step="0.01" min="0" />
                     {errors.grade && <span className={styles.error}>{errors.grade}</span>}
                 </label>
                 <label>
-                    Sex:
+                    {t('apply.sex')}:
                     <select name="sex" value={studentData.sex || ''} onChange={handleChange}>
-                        <option value="">Select</option>
-                        <option value="Male">Male</option>
-                        <option value="Female">Female</option>
-                        <option value="Other">Other</option>
+                        <option value="">{t('apply.select')}</option>
+                        <option value="Male">{t('apply.male')}</option>
+                        <option value="Female">{t('apply.female')}</option>
+                        <option value="Other">{t('apply.other')}</option>
                     </select>
                     {errors.sex && <span className={styles.error}>{errors.sex}</span>}
                 </label>
-                <button type="submit">Submit Application</button>
+                <button type="submit">{t('apply.submitApplication')}</button>
             </form>
         </div>
     );
