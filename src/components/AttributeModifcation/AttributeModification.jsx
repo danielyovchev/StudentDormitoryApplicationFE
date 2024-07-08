@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import AttributeItem from './AttributeItem';
 import styles from './AttributeModification.module.css';
 import { API_BASE_URL } from '../../utils/routeConstants';
+import { toast } from 'react-toastify';
+import { useTranslation } from 'react-i18next';
 
 export default function AttributeModification() {
+    const { t } = useTranslation();
     const [attributes, setAttributes] = useState([]);
 
     useEffect(() => {
@@ -13,7 +16,6 @@ export default function AttributeModification() {
                 console.error('User is not authenticated');
                 return;
             }
-            console.log('Using token:', token); // Debugging line
 
             try {
                 const response = await fetch(`${API_BASE_URL}/attributes/get`, {
@@ -22,7 +24,7 @@ export default function AttributeModification() {
                         'Content-Type': 'application/json',
                         'Authorization': `Bearer ${token}`
                     },
-                    credentials: 'include' // Ensure credentials are included
+                    credentials: 'include'
                 });
 
                 if (!response.ok) {
@@ -32,12 +34,12 @@ export default function AttributeModification() {
                 const data = await response.json();
                 setAttributes(data);
             } catch (error) {
-                console.error('Error fetching attributes:', error);
+                toast.error(`${t('attributeModification.fetchError')}: ${error}`);
             }
         };
 
         fetchAttributes();
-    }, []);
+    }, [t]);
 
     const handleChange = (event, attributeId) => {
         const newValue = event.target.value;
@@ -64,7 +66,7 @@ export default function AttributeModification() {
                     'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(attributes),
-                credentials: 'include' // Ensure credentials are included
+                credentials: 'include'
             });
 
             if (!response.ok) {
@@ -72,20 +74,20 @@ export default function AttributeModification() {
             }
 
             const data = await response.json();
-            console.log('Attributes updated successfully:', data);
+            toast.success(`${t('attributeModification.updateSuccess')}: ${data}`);
         } catch (error) {
-            console.error('Error updating attributes:', error);
+            toast.error(`${t('attributeModification.updateError')}: ${error}`);
         }
     };
 
     return (
         <div className={styles.formContainer}>
-            <h2>Adjust Attribute Values</h2>
+            <h2>{t('attributeModification.adjustAttributeValues')}</h2>
             <form onSubmit={handleSubmit}>
                 <div className={styles.attributeRow}>
-                    <div className={styles.attributeColumn}><strong>Name</strong></div>
-                    <div className={styles.attributeColumn}><strong>Description</strong></div>
-                    <div className={styles.attributeColumn}><strong>Value</strong></div>
+                    <div className={styles.attributeColumn}><strong>{t('attributeModification.name')}</strong></div>
+                    <div className={styles.attributeColumn}><strong>{t('attributeModification.description')}</strong></div>
+                    <div className={styles.attributeColumn}><strong>{t('attributeModification.value')}</strong></div>
                 </div>
                 {attributes.map(({ id, name, description, defaultValue }) => (
                     <AttributeItem
@@ -96,7 +98,7 @@ export default function AttributeModification() {
                         onChange={(e) => handleChange(e, id)}
                     />
                 ))}
-                <button type="submit" className={styles.submitButton}>Save Changes</button>
+                <button type="submit" className={styles.submitButton}>{t('attributeModification.saveChanges')}</button>
             </form>
         </div>
     );

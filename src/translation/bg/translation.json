@@ -181,5 +181,31 @@
     "applicationSubmittedSuccessfully": "Заявлението е подадено успешно!",
     "studentDataSubmissionFailed": "Подаването на данни за студента не бе успешно",
     "errorSubmittingStudentData": "Грешка при подаване на данни за студента"
+  },
+  "adminDashboard": {
+    "adminDashboard": "Административно табло",
+    "reviewApplications": "Преглед на заявления",
+    "modifyClassificationRules": "Промяна на правилата за класификация",
+    "modifyAttributes": "Промяна на атрибутите",
+    "studentRanking": "Класиране на студентите"
+  },
+  "attributeModification": {
+    "adjustAttributeValues": "Коригиране на стойностите на атрибутите",
+    "name": "Име",
+    "description": "Описание",
+    "value": "Стойност",
+    "saveChanges": "Запазете промените",
+    "fetchError": "Грешка при извличане на атрибутите",
+    "updateSuccess": "Атрибутите са актуализирани успешно",
+    "updateError": "Грешка при актуализиране на атрибутите"
+  },
+  "childForm": {
+    "childInformation": "Информация за дете",
+    "name": "Име",
+    "birthDate": "Дата на раждане",
+    "submit": "Подайте",
+    "fetchError": "Грешка при подаване на информация за дете",
+    "fetchSuccess": "Информацията за дете е подадена успешно!",
+    "fetchFailure": "Подаването на информация за дете не бе успешно"
   }
 }

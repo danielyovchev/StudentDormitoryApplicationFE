@@ -49,7 +49,6 @@ export default function ChildForm({ children, onAddChild }) {
                 toast.error(responseData.message || 'Child information submission failed');
             }
         } catch (error) {
-            console.error('Error submitting child information:', error);
             toast.error('Error submitting child information');
         }
     };

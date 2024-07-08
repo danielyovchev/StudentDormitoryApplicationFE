@@ -181,5 +181,31 @@
     "applicationSubmittedSuccessfully": "Application submitted successfully!",
     "studentDataSubmissionFailed": "Student data submission failed",
     "errorSubmittingStudentData": "Error submitting student data"
+  },
+  "adminDashboard": {
+    "adminDashboard": "Admin Dashboard",
+    "reviewApplications": "Review Applications",
+    "modifyClassificationRules": "Modify Classification Rules",
+    "modifyAttributes": "Modify Attributes",
+    "studentRanking": "Student Ranking"
+  },
+  "attributeModification": {
+    "adjustAttributeValues": "Adjust Attribute Values",
+    "name": "Name",
+    "description": "Description",
+    "value": "Value",
+    "saveChanges": "Save Changes",
+    "fetchError": "Error fetching attributes",
+    "updateSuccess": "Attributes updated successfully",
+    "updateError": "Error updating attributes"
+  },
+  "childForm": {
+    "childInformation": "Child Information",
+    "name": "Name",
+    "birthDate": "Birth Date",
+    "submit": "Submit",
+    "fetchError": "Error submitting child information",
+    "fetchSuccess": "Child information submitted successfully!",
+    "fetchFailure": "Child information submission failed"
   }
 }
